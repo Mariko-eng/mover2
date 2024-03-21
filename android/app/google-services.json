@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "703635723339",
+    "firebase_url": "https://straeto-2c817.firebaseio.com",
+    "project_id": "straeto-2c817",
+    "storage_bucket": "straeto-2c817.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703635723339:android:ee615bb2307b58102d69ce",
+        "android_client_info": {
+          "package_name": "me.simonojok19.bus_stop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703635723339-ebkvut7o5q5qaapiduq2n18obl3adbp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNiuGVUFHBacA0jv32ZAwnNqLXGXlGK2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703635723339-ebkvut7o5q5qaapiduq2n18obl3adbp7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "703635723339-fn2e2bi9vt31dk1ngqsl9aql105s7hti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.simonojok19.busStop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703635723339:android:d865b3f1c86624db2d69ce",
+        "android_client_info": {
+          "package_name": "me.simonojok19.bus_stop_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703635723339-ebkvut7o5q5qaapiduq2n18obl3adbp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNiuGVUFHBacA0jv32ZAwnNqLXGXlGK2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703635723339-ebkvut7o5q5qaapiduq2n18obl3adbp7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "703635723339-fn2e2bi9vt31dk1ngqsl9aql105s7hti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.simonojok19.busStop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>703635723339-f57rr1qc8596o4krof988cobgsmlc93v.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.703635723339-f57rr1qc8596o4krof988cobgsmlc93v</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAz3BRb5h1b5H5Yz2y7UBzACsLq1tenCZA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>703635723339</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>me.simonojok19.busstopadmin</string>
+	<key>PROJECT_ID</key>
+	<string>straeto-2c817</string>
+	<key>STORAGE_BUCKET</key>
+	<string>straeto-2c817.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:703635723339:ios:0cb036188399c0802d69ce</string>
+	<key>DATABASE_URL</key>
+	<string>https://straeto-2c817.firebaseio.com</string>
+</dict>
+</plist>
