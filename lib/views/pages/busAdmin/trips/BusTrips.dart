@@ -1,7 +1,7 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTripsActive.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTripsNewMixed.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTripsNonActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNewMixed.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNonActive.dart';
 import 'package:flutter/material.dart';
 
 class BusTrips extends StatefulWidget {

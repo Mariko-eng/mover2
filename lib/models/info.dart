@@ -30,6 +30,12 @@ class InfoModel {
   }
 }
 
+Stream<List<InfoModel>> getAllInfo() {
+  return AppCollections.infoRef.snapshots().map((snap) {
+    return snap.docs.map((doc) => InfoModel.fromSnapshot(doc)).toList();
+  });
+}
+
 Future<bool> addNewInfo({
   required String title,
   required String subTitle,
@@ -37,48 +43,32 @@ Future<bool> addNewInfo({
   required String description,
 }) async {
   try {
-    // String imageUrl = await uploadImage(image: image);
-
     String? fileName = await uploadFile(image: image);
 
-    if(fileName == null ){
-      String imageUrl = await getDownloadURL(fileName!);
+    if(fileName != null ){
+      String imageUrl = await getDownloadURL(fileName);
 
-      var data = {
-        "title": title,
-        "subTitle": subTitle,
-        "imageUrl": imageUrl,
-        "description": description,
-      };
+      print("Adding To News & Info");
 
-      await AppCollections.infoRef.add(data);
-      return true;
-    } else{
-      return false;
+      if(imageUrl != "") {
+        var data = {
+          "title": title,
+          "subTitle": subTitle,
+          "imageUrl": imageUrl,
+          "description": description,
+        };
+
+        await AppCollections.infoRef.add(data);
+        print("Done!");
+        return true;
+      }
     }
+    return false;
   } catch (e) {
     throw Exception(e.toString());
   }
 }
 
-// Future<String> uploadImage({
-//   required File image,
-// }) async {
-//   FirebaseStorage storage = FirebaseStorage.instance;
-//
-//   try {
-//     final fileName = image.path;
-//     final destination = 'files/$fileName';
-//
-//     final ref = storage.ref(destination).child('file/');
-//     TaskSnapshot task = await ref.putFile(image);
-//     String imageUrl = await task.ref.getDownloadURL();
-//
-//     return imageUrl;
-//   } catch (e) {
-//     throw Exception(e.toString());
-//   }
-// }
 
 Future<String?> uploadFile({
   required File image,
@@ -88,21 +78,24 @@ Future<String?> uploadFile({
     const String folderName = "info";
     final fileName = image.path;
     // final destination = 'files/$fileName${DateTime.now().toIso8601String()}';
-    final destination = '$folderName/$fileName${DateTime.now().toIso8601String()}';
+    final destination = '$folderName/${DateTime.now().toIso8601String()}$fileName';
+    print("destination");
+    print(destination);
 
     // final ref = storage.ref(destination).child('file/');
     final ref = storage.ref().child(destination); // Specify the folder using child method
-
+    // final ref = storage.ref(destination); // Specify the folder using child method
     // Upload the file to Firebase Storage
     await ref.putFile(image);
 
     print("Finished Uploading!");
-    print("Ref name : " + ref.name);
-    print("Ref bucket : " + ref.bucket);
-    print("Ref fullPath : " + ref.fullPath);
-    print("fileName" + fileName);
+    // print("Ref name : " + ref.name);
+    // print("Ref bucket : " + ref.bucket);
+    // print("Ref fullPath : " + ref.fullPath);
+    // print("fileName" + fileName);
 
-    return fileName;
+    // return fileName;
+    return destination;
   } catch (e) {
     print("Upload Error : " + e.toString());
     return null;
@@ -111,6 +104,8 @@ Future<String?> uploadFile({
 }
 
 Future<String> getDownloadURL(String fileName) async {
+  print("fileName" + fileName);
+
   try {
     return await FirebaseStorage.instance
         .ref()

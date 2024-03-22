@@ -1,6 +1,6 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusCompanyTicketTile.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusCompanyTicketTile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

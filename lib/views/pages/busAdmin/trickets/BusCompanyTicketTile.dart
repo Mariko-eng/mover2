@@ -1,7 +1,7 @@
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../shared/utils.dart';
+import '../../../shared/utils.dart';
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
 
 class BusCompanyTicketTile extends StatefulWidget {

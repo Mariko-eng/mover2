@@ -280,17 +280,17 @@ class _AdminInfoNewViewState extends State<AdminInfoNewView> {
                                        colorText: Colors.white,
                                        backgroundColor:
                                        Colors.green);
-                                   Get.back();
+                                   Navigator.of(context).pop();
                                  }else{
-                                   setState(() {
-                                     isSaving = false;
-                                   });
                                    Get.snackbar("Sorry",
                                        "Failed Add Article!",
                                        colorText: Colors.white,
                                        backgroundColor:
                                        Colors.red);
                                  }
+                                setState(() {
+                                  isSaving = false;
+                                });
                               }catch(e){
                                 Get.snackbar("Sorry",
                                     "Something Went Wrong!",

@@ -13,7 +13,7 @@ import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllTickets.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllTrips.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/SettingsScreen.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/bus_company/BusCompanyList.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/AdminInfoListView.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoListView.dart';
 
 
 class DashboardSuperAdmin extends StatefulWidget {

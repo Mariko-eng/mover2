@@ -5,7 +5,7 @@ import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketTile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../shared/loading.dart';
+import '../../../shared/loading.dart';
 
 class BusCompanyTripsTickets extends StatefulWidget {
   // final AdminUserModel user;

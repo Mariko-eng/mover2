@@ -1,27 +1,27 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';
 import 'package:bus_stop_develop_admin/models/user/user.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTripsTickets.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsTickets.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/TripsViewEdit.dart';
 import 'package:bus_stop_develop_admin/views/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BusTripsActive extends StatefulWidget {
+class BusTripsNonActive extends StatefulWidget {
   // final AdminUserModel user;
   final BusCompany company;
 
-  const BusTripsActive({Key? key, required this.company}) : super(key: key);
+  const BusTripsNonActive({Key? key, required this.company}) : super(key: key);
 
   @override
-  _BusTripsActiveState createState() => _BusTripsActiveState();
+  _BusTripsNonActiveState createState() => _BusTripsNonActiveState();
 }
 
-class _BusTripsActiveState extends State<BusTripsActive> {
+class _BusTripsNonActiveState extends State<BusTripsNonActive> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: getActiveTripsForBusCompany(companyId: widget.company.uid),
+        stream: getNonActiveTripsForBusCompany(companyId: widget.company.uid),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -112,28 +112,17 @@ class _BusTripsActiveState extends State<BusTripsActive> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      "Trip:",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(trip.tripNumber)
-                                                  ],
-                                                ),
-                                                Text(
-                                                  trip.busPlateNo.toUpperCase(),
+                                                const Text(
+                                                  "Trip:",
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold),
+                                                          FontWeight.bold),
                                                 ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(trip.tripNumber)
                                               ],
                                             ),
                                           ),
@@ -431,4 +420,57 @@ class _BusTripsActiveState extends State<BusTripsActive> {
           return Container();
         });
   }
+
+// void _openBottomSheet({ Trip trip }) {
+//   showModalBottomSheet(
+//       context: context,
+//       builder: (context) {
+//         return _getDestOptions(trip: trip);
+//       });
+// }
+//
+// Widget _getDestOptions({ Trip trip }) {
+//   final options = [
+//     "View Tickets",
+//     "View/Edit Trip",
+//   ];
+//   return Container(
+//     height: 200,
+//     margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+//     color: Colors.white,
+//     child: ListView(
+//       children: options
+//           .map((option) => ListTile(
+//         onTap: () => {
+//           if(option == "View Tickets"){
+//             Navigator.of(context).pop(),
+//             Get.to(() => BusCompanyTripsTickets(
+//               user: widget.user,
+//               trip: trip,
+//             ))
+//           },
+//           if(option == "View/Edit Trip"){
+//             Navigator.of(context).pop(),
+//             Get.to(() => TripsViewEdit(
+//               user: widget.user,
+//               trip: trip,
+//             ))
+//           },
+//         },
+//         title: Column(
+//           children: [
+//             Text(
+//               option,
+//               textAlign: TextAlign.start,
+//               style: TextStyle(color: Color(0xFFE4191D)),
+//             ),
+//             SizedBox(height: 4),
+//             Divider(height: 1)
+//           ],
+//         ),
+//       ))
+//           .toList(),
+//     ),
+//   );
+// }
 }

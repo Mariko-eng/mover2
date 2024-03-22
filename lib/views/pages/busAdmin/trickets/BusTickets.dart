@@ -1,8 +1,8 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/tripNumbers.dart';
 import 'package:bus_stop_develop_admin/models/user/user.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTicketsActive.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/BusTicketsNonActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusTicketsActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusTicketsNonActive.dart';
 import 'package:flutter/material.dart';
 
 class BusCompanyTickets extends StatefulWidget {
