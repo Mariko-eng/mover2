@@ -58,7 +58,7 @@ class _BusParkLocationsNewViewState extends State<BusParkLocationsNewView> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Scaffold(
-            body: Loading(),
+            body: LoadingWidget(),
           )
         : Scaffold(
             appBar: AppBar(

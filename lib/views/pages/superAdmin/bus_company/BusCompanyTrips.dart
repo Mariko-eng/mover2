@@ -43,25 +43,9 @@ class _BusCompanyTripsState extends State<BusCompanyTrips> {
             }
             return ListView.builder(
                 itemCount: trips.length,
-                itemBuilder: (context, int index) => FutureBuilder(
-                      future: trips[index].setCompanyData(context),
-                      // ignore: missing_return
-                      builder: (context, snapshot) {
-                        Trip? trip = snapshot.data;
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            if (index == 0) {
-                              return Container();
-                            }
-                            return Container();
-                          case ConnectionState.none:
-                            return Container();
-                          case ConnectionState.active:
-                            return Text('Searching... ');
-                          case ConnectionState.done:
-                            return trip == null
-                                ? Container()
-                                : Padding(
+                itemBuilder: (context, int index) {
+                  Trip trip = trips[index];
+                  return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
                                     child: Card(
@@ -104,9 +88,8 @@ class _BusCompanyTripsState extends State<BusCompanyTrips> {
                                       ),
                                     ),
                                   );
-                        }
-                      },
-                    ));
+                }
+                    );
           }
           return Container();
         },

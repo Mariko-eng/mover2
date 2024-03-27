@@ -45,12 +45,12 @@ Future<bool> addNewInfo({
   try {
     String? fileName = await uploadFile(image: image);
 
-    if(fileName != null ){
+    if (fileName != null) {
       String imageUrl = await getDownloadURL(fileName);
 
       print("Adding To News & Info");
 
-      if(imageUrl != "") {
+      if (imageUrl != "") {
         var data = {
           "title": title,
           "subTitle": subTitle,
@@ -69,6 +69,45 @@ Future<bool> addNewInfo({
   }
 }
 
+Future<bool> editNewInfo({
+  required InfoModel infoModel,
+  required String title,
+  required String subTitle,
+  File? image,
+  required String description,
+}) async {
+  try {
+    await AppCollections.infoRef.doc(infoModel.id).update({
+      "title": title,
+      "subTitle": subTitle,
+      "description": description,
+    });
+
+    if (image != null) {
+      String? fileName = await uploadFile(image: image);
+
+      if (fileName != null) {
+        String imageUrl = await getDownloadURL(fileName);
+
+        print("Updating News & Info");
+
+        if (imageUrl != "") {
+          await AppCollections.infoRef.doc(infoModel.id).update({
+            "imageUrl": imageUrl,
+          });
+
+          print("Done!");
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
 
 Future<String?> uploadFile({
   required File image,
@@ -78,12 +117,15 @@ Future<String?> uploadFile({
     const String folderName = "info";
     final fileName = image.path;
     // final destination = 'files/$fileName${DateTime.now().toIso8601String()}';
-    final destination = '$folderName/${DateTime.now().toIso8601String()}$fileName';
+    final destination =
+        '$folderName/${DateTime.now().toIso8601String()}$fileName';
     print("destination");
     print(destination);
 
     // final ref = storage.ref(destination).child('file/');
-    final ref = storage.ref().child(destination); // Specify the folder using child method
+    final ref = storage
+        .ref()
+        .child(destination); // Specify the folder using child method
     // final ref = storage.ref(destination); // Specify the folder using child method
     // Upload the file to Firebase Storage
     await ref.putFile(image);
@@ -113,5 +155,17 @@ Future<String> getDownloadURL(String fileName) async {
         .getDownloadURL();
   } catch (e) {
     return "";
+  }
+}
+
+Future<bool> deleteNewInfo({
+  required InfoModel infoModel,
+}) async {
+  try {
+    await AppCollections.infoRef.doc(infoModel.id).delete();
+    return true;
+  } catch (e) {
+    print(e.toString());
+    return false;
   }
 }

@@ -16,7 +16,7 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     if (userProvider.isLoading) {
-      return const Loading();
+      return const LoadingWidget();
     } else {
       if (userProvider.userModel == null) {
         return const LoginScreen();

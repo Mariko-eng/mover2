@@ -144,7 +144,7 @@ class _TicketNumberVerifyState extends State<TicketNumberVerify> {
                         TripTicket? ticket = snapshot.data;
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return const Loading();
+                            return const LoadingWidget();
                             return Container();
                           case ConnectionState.none:
                             return const Text(

@@ -112,7 +112,7 @@ class _TripsTicketListState extends State<TicketList> {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                           if (index == 0) {
-                            return const Loading();
+                            return const LoadingWidget();
                           }
 
                           return Container();

@@ -33,7 +33,7 @@ class _TicketTileState extends State<TicketTile> {
             width: 300,
             height: 310,
             child: Center(
-              child: Loading(),
+              child: LoadingWidget(),
             ),
           )
         : GestureDetector(

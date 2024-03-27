@@ -65,7 +65,7 @@ class _BusAdminUserAccountsEditViewState
               }
               if (!snapshot.hasData) {
                 return const Center(
-                  child: Loading(),
+                  child: LoadingWidget(),
                 );
               } else {
                 List<UserGroupModel>? groups = snapshot.data;

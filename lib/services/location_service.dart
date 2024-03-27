@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:bus_stop_develop_admin/config/google_maps.dart';
+import 'package:bus_stop_develop_admin/config/google_maps/google_maps.dart';
 import 'package:bus_stop_develop_admin/models/destination/destination.dart';
 import 'package:bus_stop_develop_admin/models/destination/locationModel.dart';
 

@@ -52,7 +52,7 @@ class _BusCompanyTicketsState extends State<BusCompanyTickets> {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
                             if (index == 0) {
-                              return const Loading();
+                              return const LoadingWidget();
                             }
 
                             return Container();

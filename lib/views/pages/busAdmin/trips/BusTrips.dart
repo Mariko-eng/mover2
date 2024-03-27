@@ -1,8 +1,10 @@
-import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsActive.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNewMixed.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNonActive.dart';
 import 'package:flutter/material.dart';
+import 'package:bus_stop_develop_admin/models/busCompany.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/widgets/BusTripsActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/widgets/BusTripsDrafts.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/widgets/BusTripsNonActive.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNewView.dart';
+
 
 class BusTrips extends StatefulWidget {
   final BusCompany company;
@@ -16,7 +18,7 @@ class _BusTripsState extends State<BusTrips> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xfffdfdfd),
@@ -45,11 +47,11 @@ class _BusTripsState extends State<BusTrips> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BusTripsNewMixed(
+                        builder: (context) => BusTripsNewView(
                           company: widget.company,
                         )));
               },
-              child: Icon(Icons.add_box)
+              child: Icon(Icons.add_box, color: Colors.white,)
           ),
           body: Column(
             children: [
@@ -62,10 +64,13 @@ class _BusTripsState extends State<BusTrips> {
                         topLeft: Radius.circular(30))),
                 child: const TabBar(labelColor: Color(0xff8c2636), tabs: [
                   Tab(
-                    text: "ACTIVE TRIPS",
+                    text: "ACTIVE",
                   ),
                   Tab(
-                    text: "INACTIVE TRIPS",
+                    text: "DRAFTS",
+                  ),
+                  Tab(
+                    text: "HISTORY",
                   ),
                 ]),
               ),
@@ -73,6 +78,9 @@ class _BusTripsState extends State<BusTrips> {
                 child: TabBarView(
                     children: [
                       BusTripsActive(
+                        company: widget.company,
+                      ),
+                      BusTripsDrafts(
                         company: widget.company,
                       ),
                       BusTripsNonActive(

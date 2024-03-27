@@ -47,7 +47,7 @@ class _TripsState extends State<AllTrips> {
             }
             if (!snapshot.hasData) {
               return Center(
-                child: Loading(),
+                child: LoadingWidget(),
               );
             } else {
               List<BusCompany>? companies = snapshot.data;
@@ -127,7 +127,7 @@ class _TripsState extends State<AllTrips> {
                               }
                             }
                             if (!snapshot.hasData) {
-                              return Expanded(child: Center(child: Loading()));
+                              return Expanded(child: Center(child: LoadingWidget()));
                             } else {
                               List<Trip>? trips = snapshot.data;
                               if (trips == null) {

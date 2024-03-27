@@ -231,7 +231,7 @@ class _TicketScanVerifyState extends State<TicketScanVerify> {
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width,
                                 height: 200,
-                                child: const Loading())
+                                child: const LoadingWidget())
                             : Container(),
                         _ticketError != ""
                             ? Container(
@@ -281,7 +281,7 @@ class _TicketScanVerifyState extends State<TicketScanVerify> {
                                   TripTicket? ticket = snapshot.data;
                                   switch (snapshot.connectionState) {
                                     case ConnectionState.waiting:
-                                      return const Loading();
+                                      return const LoadingWidget();
                                       return Container();
                                     case ConnectionState.none:
                                       return const Text(

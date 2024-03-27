@@ -46,7 +46,7 @@ class _AllTicketsState extends State<AllTickets> {
               );
             }
             if (!snapshot.hasData){
-              return Center(child: Loading(),);
+              return Center(child: LoadingWidget(),);
             }else{
               List<BusCompany>? companies = snapshot.data;
               if(companies  == null) {
@@ -123,7 +123,7 @@ class _AllTicketsState extends State<AllTickets> {
                         }
                       }
                       if (!snapshot.hasData){
-                        return Expanded(child: Center(child: Loading()));
+                        return Expanded(child: Center(child: LoadingWidget()));
                       }else{
                         List<TripTicket>? tickets = snapshot.data;
                         if(tickets == null) {
@@ -149,9 +149,8 @@ class _AllTicketsState extends State<AllTickets> {
                                                     TripTicket? ticket = snapshot.data;
                                                     switch (snapshot.connectionState) {
                                                       case ConnectionState.waiting:
-                                                          return Loading();
+                                                          return LoadingWidget();
 
-                                                        return Container();
                                                       case ConnectionState.none:
                                                         return Container(
                                                           child: const Text(

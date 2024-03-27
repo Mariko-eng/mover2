@@ -66,7 +66,7 @@ class _BusParkLocationsViewEditState extends State<BusParkLocationsViewEdit> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Scaffold(
-            body: Loading(),
+            body: LoadingWidget(),
           )
         : Scaffold(
             appBar: AppBar(

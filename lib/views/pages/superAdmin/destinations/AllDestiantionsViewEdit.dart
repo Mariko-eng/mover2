@@ -27,7 +27,7 @@ class _AllDestinationsViewEditState extends State<AllDestinationsViewEdit> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Scaffold(
-      body: Loading(),
+      body: LoadingWidget(),
     )
         : Scaffold(
         appBar: AppBar(

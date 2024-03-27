@@ -12,9 +12,11 @@ final CollectionReference companiesCollection = AppCollections.companiesRef;
 
 class Trip {
   final String id;
+
   // final DocumentReference arrivalLocation;
   final String arrivalLocationId;
   final String arrivalLocationName;
+
   // final DocumentReference departureLocation;
   final String departureLocationId;
   final String departureLocationName;
@@ -38,10 +40,13 @@ class Trip {
   final String tripNumber;
   final String tripType;
   Map<String, dynamic>? companyData;
+  bool isActive;
+  bool isDraft;
+  bool isPublished;
+  bool isSoldOut;
 
   // Map<String, dynamic> arrival;
   // Map<String, dynamic> departure;
-
   Trip(
       {required this.id,
       required this.arrivalLocationId,
@@ -50,7 +55,7 @@ class Trip {
       required this.departureLocationName,
       required this.company,
       required this.companyId,
-        required  this.busPlateNo,
+      required this.busPlateNo,
       required this.departureTime,
       required this.arrivalTime,
       required this.totalSeats,
@@ -66,7 +71,11 @@ class Trip {
       required this.priceVip,
       required this.discountPriceVip,
       required this.tripNumber,
-      required this.tripType});
+      required this.tripType,
+      required this.isActive,
+      required this.isDraft,
+      required this.isPublished,
+      required this.isSoldOut});
 
   Future<Trip> setCompanyData(BuildContext context) async {
     DocumentSnapshot companySnapshot = await company.get();
@@ -104,7 +113,11 @@ class Trip {
         priceVip: data['priceVip'] ?? 0,
         discountPriceVip: data['discountPriceVip'] ?? data['priceVip'] ?? 0,
         tripNumber: data['tripNumber'],
-        tripType: data['tripType'] ?? "");
+        tripType: data['tripType'] ?? "",
+        isActive: data['isActive'] ?? data['is_active'] ?? false,
+        isDraft: data['isDraft'] ?? false,
+        isPublished: data['isPublished'] ?? false,
+        isSoldOut: data['isSoldOut'] ?? false);
   }
 }
 
@@ -147,7 +160,8 @@ Future addTripOrdinaryOnly(
     int occupiedVipSeats = 0,
     required int priceVip,
     required int discountPriceVip,
-    required String tripType}) async {
+    required String tripType,
+    required bool isPublished}) async {
   try {
     DocumentReference arrivalLocation =
         destinationsCollection.doc(arrivalLocationId);
@@ -186,11 +200,67 @@ Future addTripOrdinaryOnly(
       "discountPriceVip": discountPriceVip,
       "tripType": tripType,
       'tripNumber': num,
-      'is_active': true
+      'isActive': isPublished ? true : false,
+      'isDraft': isPublished ? false : true,
+      'isPublished': isPublished,
+      'isSoldOut': false,
     });
     await addBusCompanyNotification(
         busCompanyId: companyId,
         title: "New Trip",
+        body: departureLocationName.toUpperCase() +
+            " To " +
+            arrivalLocationName.toUpperCase());
+    return "success";
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
+
+Future editTripOrdinaryOnly({
+  required Trip trip,
+  required String busPlateNo,
+  required String arrivalLocationName,
+  required String arrivalLocationId,
+  required String departureLocationId,
+  required String departureLocationName,
+  required DateTime departureTime,
+  required DateTime arrivalTime,
+  required int totalSeats,
+  required int price,
+  required int discountPrice,
+  required int totalOrdinarySeats,
+  required int priceOrdinary,
+  required int discountPriceOrdinary,
+}) async {
+  try {
+    DocumentReference arrivalLocation =
+        destinationsCollection.doc(arrivalLocationId);
+
+    DocumentReference departureLocation =
+        destinationsCollection.doc(departureLocationId);
+
+    await tripsCollection.doc(trip.id).update({
+      "busPlateNo": busPlateNo,
+      "arrivalLocation": arrivalLocation,
+      "arrivalLocationId": arrivalLocationId,
+      "arrivalLocationName": arrivalLocationName,
+      "departureLocation": departureLocation,
+      "departureLocationId": departureLocationId,
+      "departureLocationName": departureLocationName,
+      "departureTime": departureTime,
+      "arrivalTime": arrivalTime,
+      "totalSeats": totalSeats,
+      "price": price,
+      "discountPrice": discountPrice,
+      "totalOrdinarySeats": totalOrdinarySeats,
+      "priceOrdinary": priceOrdinary,
+      "discountPriceOrdinary": discountPriceOrdinary,
+    });
+    await addBusCompanyNotification(
+        busCompanyId: trip.companyId,
+        title: "Edit Trip",
         body: departureLocationName.toUpperCase() +
             " To " +
             arrivalLocationName.toUpperCase());
@@ -223,7 +293,8 @@ Future addTripOrdinaryAndVIP(
     required int discountPriceVip,
     required int priceOrdinary,
     required int discountPriceOrdinary,
-    required String tripType}) async {
+    required String tripType,
+    required bool isPublished}) async {
   try {
     DocumentReference arrivalLocation =
         destinationsCollection.doc(arrivalLocationId);
@@ -262,7 +333,10 @@ Future addTripOrdinaryAndVIP(
       "discountPriceVip": discountPriceVip,
       "tripType": tripType,
       'tripNumber': num,
-      'is_active': true
+      'isActive': isPublished ? true : false,
+      'isDraft': isPublished ? false : true,
+      'isPublished': isPublished,
+      'isSoldOut': false,
     });
     return "success";
   } catch (e) {
@@ -271,55 +345,135 @@ Future addTripOrdinaryAndVIP(
   }
 }
 
-// Future updateTrip(
-//     {String tripId,
-//     String arrivalLocationId,
-//     String departureLocationId,
-//     String companyId,
-//     DateTime departureTime,
-//     DateTime arrivalTime,
-//     int totalSeats,
-//     int occupiedSeats = 0,
-//     int price,
-//     String tripType}) async {
-//   try {
-//     DocumentSnapshot docArrival = await FirebaseFirestore.instance
-//         .collection("destinations")
-//         .doc(arrivalLocationId)
-//         .get();
-//     DocumentReference arrivalLocation = docArrival.reference;
-//
-//     DocumentSnapshot docDeparture = await FirebaseFirestore.instance
-//         .collection("destinations")
-//         .doc(departureLocationId)
-//         .get();
-//     DocumentReference departureLocation = docDeparture.reference;
-//
-//     DocumentSnapshot docCompany = await FirebaseFirestore.instance
-//         .collection("companies")
-//         .doc(companyId)
-//         .get();
-//     DocumentReference company = docCompany.reference;
-//
-//     await FirebaseFirestore.instance.collection('trips').doc(tripId).update({
-//       "arrivalLocation": arrivalLocation,
-//       "arrivalLocationId": arrivalLocationId,
-//       "departureLocation": departureLocation,
-//       "departureLocationId": departureLocationId,
-//       "company": company,
-//       "companyId": companyId,
-//       "departureTime": departureTime,
-//       "arrivalTime": arrivalTime,
-//       "totalSeats": totalSeats,
-//       "occupiedSeats": occupiedSeats,
-//       "price": price,
-//       "tripType": tripType,
-//       "isActive": true
-//     });
-//   } catch (e) {
-//     print(e);
-//   }
-// }
+Future editTripOrdinaryAndVIP({
+  required Trip trip,
+  required String busPlateNo,
+  required String arrivalLocationName,
+  required String arrivalLocationId,
+  required String departureLocationId,
+  required String departureLocationName,
+  required DateTime departureTime,
+  required DateTime arrivalTime,
+  required int totalSeats,
+  required int totalOrdinarySeats,
+  required int totalVipSeats,
+  required int price,
+  required int discountPrice,
+  required int priceVip,
+  required int discountPriceVip,
+  required int priceOrdinary,
+  required int discountPriceOrdinary,
+}) async {
+  try {
+    DocumentReference arrivalLocation =
+        destinationsCollection.doc(arrivalLocationId);
+
+    DocumentReference departureLocation =
+        destinationsCollection.doc(departureLocationId);
+
+    await tripsCollection.doc(trip.id).update({
+      "busPlateNo": busPlateNo,
+      "arrivalLocation": arrivalLocation,
+      "arrivalLocationId": arrivalLocationId,
+      "arrivalLocationName": arrivalLocationName,
+      "departureLocation": departureLocation,
+      "departureLocationId": departureLocationId,
+      "departureLocationName": departureLocationName,
+      "departureTime": departureTime,
+      "arrivalTime": arrivalTime,
+      "totalSeats": totalSeats,
+      "price": price,
+      "discountPrice": discountPrice,
+      "totalOrdinarySeats": totalOrdinarySeats,
+      "priceOrdinary": priceOrdinary,
+      "discountPriceOrdinary": discountPriceOrdinary,
+      "totalVipSeats": totalVipSeats,
+      "priceVip": priceVip,
+      "discountPriceVip": discountPriceVip,
+    });
+    return "success";
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
+
+Future<bool> editTripDraft(
+    {required Trip trip}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isDraft': true,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> editTripUnDraft(
+    {required Trip trip}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isDraft': false,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> editTripPublish(
+    {required Trip trip}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isPublished': true,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> editTripUnPublish(
+    {required Trip trip}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isPublished': false,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> editTripSoldOutState({required Trip trip, required bool newState}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isSoldOut': newState,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> editTripMoveToDraft({required Trip trip}) async {
+  try {
+    await tripsCollection.doc(trip.id).update({
+      'isDraft': true,
+      'isPublished': false,
+    });
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
 
 Future<bool> deleteTrip({
   required String tripId,
@@ -333,7 +487,6 @@ Future<bool> deleteTrip({
     for (int i = 0; i < results.docs.length; i++) {
       await ticketsCollection.doc(results.docs[i].id).delete();
     }
-
     return true;
   } catch (e) {
     print(e);
@@ -341,7 +494,7 @@ Future<bool> deleteTrip({
   }
 }
 
-Stream<List<Trip>> getActiveTripsForBusCompany({required String companyId}) {
+Stream<List<Trip>> busCompanyActiveTrips({required String companyId}) {
   DateTime now = DateTime.now();
   DateTime yesterday =
       DateTime(now.year, now.month, now.day - 1, now.hour, now.minute);
@@ -349,6 +502,7 @@ Stream<List<Trip>> getActiveTripsForBusCompany({required String companyId}) {
   return tripsCollection
       .where('departureTime', isGreaterThanOrEqualTo: yesterday)
       .where('companyId', isEqualTo: companyId)
+      .where('isDraft', isEqualTo: false)
       .orderBy('departureTime')
       .snapshots()
       .map((snap) {
@@ -356,7 +510,18 @@ Stream<List<Trip>> getActiveTripsForBusCompany({required String companyId}) {
   });
 }
 
-Stream<List<Trip>> getNonActiveTripsForBusCompany({required String companyId}) {
+Stream<List<Trip>> busCompanyDraftTrips({required String companyId}) {
+  return tripsCollection
+      .where('companyId', isEqualTo: companyId)
+      .where('isDraft', isEqualTo: true)
+      .orderBy('departureTime')
+      .snapshots()
+      .map((snap) {
+    return snap.docs.map((doc) => Trip.fromSnapshot(doc)).toList();
+  });
+}
+
+Stream<List<Trip>> busCompanyNonActiveTrips({required String companyId}) {
   DateTime now = DateTime.now();
   DateTime yesterday =
       DateTime(now.year, now.month, now.day - 1, now.hour, now.minute);
@@ -364,12 +529,43 @@ Stream<List<Trip>> getNonActiveTripsForBusCompany({required String companyId}) {
   return tripsCollection
       .where('departureTime', isLessThanOrEqualTo: yesterday)
       .where('companyId', isEqualTo: companyId)
+      .where('isDraft', isEqualTo: false)
       .orderBy('departureTime')
       .snapshots()
       .map((snap) {
     return snap.docs.map((doc) => Trip.fromSnapshot(doc)).toList();
   });
 }
+
+// Stream<List<Trip>> getActiveTripsForBusCompany({required String companyId}) {
+//   DateTime now = DateTime.now();
+//   DateTime yesterday =
+//       DateTime(now.year, now.month, now.day - 1, now.hour, now.minute);
+//
+//   return tripsCollection
+//       .where('departureTime', isGreaterThanOrEqualTo: yesterday)
+//       .where('companyId', isEqualTo: companyId)
+//       .orderBy('departureTime')
+//       .snapshots()
+//       .map((snap) {
+//     return snap.docs.map((doc) => Trip.fromSnapshot(doc)).toList();
+//   });
+// }
+
+// Stream<List<Trip>> getNonActiveTripsForBusCompany({required String companyId}) {
+//   DateTime now = DateTime.now();
+//   DateTime yesterday =
+//       DateTime(now.year, now.month, now.day - 1, now.hour, now.minute);
+//
+//   return tripsCollection
+//       .where('departureTime', isLessThanOrEqualTo: yesterday)
+//       .where('companyId', isEqualTo: companyId)
+//       .orderBy('departureTime')
+//       .snapshots()
+//       .map((snap) {
+//     return snap.docs.map((doc) => Trip.fromSnapshot(doc)).toList();
+//   });
+// }
 
 Stream<List<Trip>> getAllTripsForBusCompany({required String companyId}) {
   return tripsCollection

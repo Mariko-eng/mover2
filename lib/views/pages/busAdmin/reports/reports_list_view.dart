@@ -46,7 +46,7 @@ class _BusReportsListViewState extends State<BusReportsListView> {
                 )),
           ),
           title: Text(
-            "Reports".toUpperCase(),
+            "Ticket Reports".toUpperCase(),
             style: TextStyle(color: Colors.red[900]),
           )),
       body: Padding(
@@ -57,9 +57,17 @@ class _BusReportsListViewState extends State<BusReportsListView> {
             SizedBox(
               height: 5,
             ),
-            const Text(
-              "Select Date",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                const Text(
+                  "Select Date",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  " - By Departure",
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                ),
+              ],
             ),
             SizedBox(
               height: 5,
