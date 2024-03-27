@@ -9,6 +9,9 @@ class InfoModel {
   final String subTitle;
   final String imageUrl;
   final String description;
+  final String busCompanyId;
+  final String busCompanyName;
+
 
   InfoModel({
     required this.id,
@@ -16,6 +19,8 @@ class InfoModel {
     required this.subTitle,
     required this.imageUrl,
     required this.description,
+    required this.busCompanyId,
+    required this.busCompanyName,
   });
 
   factory InfoModel.fromSnapshot(DocumentSnapshot snap) {
@@ -26,6 +31,8 @@ class InfoModel {
       subTitle: data["subTitle"] ?? "",
       imageUrl: data["imageUrl"] ?? "",
       description: data["description"] ?? "",
+      busCompanyId: data["busCompanyId"] ?? "",
+      busCompanyName: data["busCompanyName"] ?? "",
     );
   }
 }
