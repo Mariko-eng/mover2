@@ -40,42 +40,45 @@ class Trip {
   final String tripNumber;
   final String tripType;
   Map<String, dynamic>? companyData;
-  bool isActive;
-  bool isDraft;
-  bool isPublished;
-  bool isSoldOut;
+  final bool isActive;
+  final bool isDraft;
+  final bool isPublished;
+  final bool isSoldOut;
+  final bool isClosed;
 
   // Map<String, dynamic> arrival;
   // Map<String, dynamic> departure;
-  Trip(
-      {required this.id,
-      required this.arrivalLocationId,
-      required this.arrivalLocationName,
-      required this.departureLocationId,
-      required this.departureLocationName,
-      required this.company,
-      required this.companyId,
-      required this.busPlateNo,
-      required this.departureTime,
-      required this.arrivalTime,
-      required this.totalSeats,
-      required this.occupiedSeats,
-      required this.price,
-      required this.discountPrice,
-      required this.totalOrdinarySeats,
-      required this.occupiedOrdinarySeats,
-      required this.priceOrdinary,
-      required this.discountPriceOrdinary,
-      required this.totalVipSeats,
-      required this.occupiedVipSeats,
-      required this.priceVip,
-      required this.discountPriceVip,
-      required this.tripNumber,
-      required this.tripType,
-      required this.isActive,
-      required this.isDraft,
-      required this.isPublished,
-      required this.isSoldOut});
+  Trip({
+    required this.id,
+    required this.arrivalLocationId,
+    required this.arrivalLocationName,
+    required this.departureLocationId,
+    required this.departureLocationName,
+    required this.company,
+    required this.companyId,
+    required this.busPlateNo,
+    required this.departureTime,
+    required this.arrivalTime,
+    required this.totalSeats,
+    required this.occupiedSeats,
+    required this.price,
+    required this.discountPrice,
+    required this.totalOrdinarySeats,
+    required this.occupiedOrdinarySeats,
+    required this.priceOrdinary,
+    required this.discountPriceOrdinary,
+    required this.totalVipSeats,
+    required this.occupiedVipSeats,
+    required this.priceVip,
+    required this.discountPriceVip,
+    required this.tripNumber,
+    required this.tripType,
+    required this.isActive,
+    required this.isDraft,
+    required this.isPublished,
+    required this.isSoldOut,
+    required this.isClosed,
+  });
 
   Future<Trip> setCompanyData(BuildContext context) async {
     DocumentSnapshot companySnapshot = await company.get();
@@ -114,10 +117,13 @@ class Trip {
         discountPriceVip: data['discountPriceVip'] ?? data['priceVip'] ?? 0,
         tripNumber: data['tripNumber'],
         tripType: data['tripType'] ?? "",
-        isActive: data['isActive'] ?? data['is_active'] ?? false,
+        isActive: data['isActive'] ?? false ?? data['is_active'],
         isDraft: data['isDraft'] ?? false,
         isPublished: data['isPublished'] ?? false,
-        isSoldOut: data['isSoldOut'] ?? false);
+        isSoldOut: data['isSoldOut'] ?? false,
+        isClosed: data['isClosed'] ?? (data['isSoldOut'] == null
+                ? false
+                : data['isSoldOut'] ?? data['isClosed']));
   }
 }
 
@@ -204,6 +210,7 @@ Future addTripOrdinaryOnly(
       'isDraft': isPublished ? false : true,
       'isPublished': isPublished,
       'isSoldOut': false,
+      'isClosed' :false
     });
     await addBusCompanyNotification(
         busCompanyId: companyId,
@@ -337,6 +344,7 @@ Future addTripOrdinaryAndVIP(
       'isDraft': isPublished ? false : true,
       'isPublished': isPublished,
       'isSoldOut': false,
+      'isClosed' :false
     });
     return "success";
   } catch (e) {
@@ -398,8 +406,7 @@ Future editTripOrdinaryAndVIP({
   }
 }
 
-Future<bool> editTripDraft(
-    {required Trip trip}) async {
+Future<bool> editTripDraft({required Trip trip}) async {
   try {
     await tripsCollection.doc(trip.id).update({
       'isDraft': true,
@@ -411,8 +418,7 @@ Future<bool> editTripDraft(
   }
 }
 
-Future<bool> editTripUnDraft(
-    {required Trip trip}) async {
+Future<bool> editTripUnDraft({required Trip trip}) async {
   try {
     await tripsCollection.doc(trip.id).update({
       'isDraft': false,
@@ -424,8 +430,7 @@ Future<bool> editTripUnDraft(
   }
 }
 
-Future<bool> editTripPublish(
-    {required Trip trip}) async {
+Future<bool> editTripPublish({required Trip trip}) async {
   try {
     await tripsCollection.doc(trip.id).update({
       'isPublished': true,
@@ -437,8 +442,7 @@ Future<bool> editTripPublish(
   }
 }
 
-Future<bool> editTripUnPublish(
-    {required Trip trip}) async {
+Future<bool> editTripUnPublish({required Trip trip}) async {
   try {
     await tripsCollection.doc(trip.id).update({
       'isPublished': false,
@@ -450,10 +454,12 @@ Future<bool> editTripUnPublish(
   }
 }
 
-Future<bool> editTripSoldOutState({required Trip trip, required bool newState}) async {
+Future<bool> editTripSoldOutState(
+    {required Trip trip, required bool newState}) async {
   try {
     await tripsCollection.doc(trip.id).update({
       'isSoldOut': newState,
+      'isClosed' : newState
     });
     return true;
   } catch (e) {

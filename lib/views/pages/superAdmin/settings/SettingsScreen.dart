@@ -1,5 +1,5 @@
 import 'package:bus_stop_develop_admin/models/settingsProfile.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/SettingsEditScreen.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/settings/SettingsEditScreen.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AllSuperAdminNotifications extends StatefulWidget {
-  const AllSuperAdminNotifications({Key? key}) : super(key: key);
+class SuperAdminNotificationsListView extends StatefulWidget {
+  const SuperAdminNotificationsListView({Key? key}) : super(key: key);
 
   @override
   _AllSuperAdminNotificationsState createState() => _AllSuperAdminNotificationsState();
 }
 
-class _AllSuperAdminNotificationsState extends State<AllSuperAdminNotifications> {
+class _AllSuperAdminNotificationsState extends State<SuperAdminNotificationsListView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold();

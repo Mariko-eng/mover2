@@ -48,6 +48,8 @@ Future<bool> addNewInfo({
   required String subTitle,
   required File image,
   required String description,
+  required String busCompanyId,
+  required String busCompanyName,
 }) async {
   try {
     String? fileName = await uploadFile(image: image);
@@ -63,6 +65,8 @@ Future<bool> addNewInfo({
           "subTitle": subTitle,
           "imageUrl": imageUrl,
           "description": description,
+          "busCompanyId": busCompanyId,
+          "busCompanyName" : busCompanyName
         };
 
         await AppCollections.infoRef.add(data);
@@ -80,6 +84,8 @@ Future<bool> editNewInfo({
   required InfoModel infoModel,
   required String title,
   required String subTitle,
+  required String busCompanyId,
+  required String busCompanyName,
   File? image,
   required String description,
 }) async {
@@ -88,6 +94,8 @@ Future<bool> editNewInfo({
       "title": title,
       "subTitle": subTitle,
       "description": description,
+      "busCompanyId": busCompanyId,
+      "busCompanyName" : busCompanyName
     });
 
     if (image != null) {

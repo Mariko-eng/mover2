@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/main/TicketScanVerify.dart';
+import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/TicketScanVerify.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketTile.dart';
@@ -158,7 +158,7 @@ class _TicketNumberVerifyState extends State<TicketNumberVerify> {
                           case ConnectionState.done:
                             return ticket == null
                                 ? Container()
-                                : TicketTile(
+                                : BusAdminTicketTile(
                                     company: widget.company,
                                     tripTicket: ticket);
                         }

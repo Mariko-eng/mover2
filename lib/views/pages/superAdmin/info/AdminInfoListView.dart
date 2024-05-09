@@ -2,19 +2,17 @@ import 'package:bus_stop_develop_admin/models/info.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoDetailView.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoEditView.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoNewView.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class AdminInfoListView extends StatefulWidget {
-  const AdminInfoListView({super.key});
+class SuperAdminInfoListView extends StatefulWidget {
+  const SuperAdminInfoListView({super.key});
 
   @override
-  State<AdminInfoListView> createState() => _AdminInfoListViewState();
+  State<SuperAdminInfoListView> createState() => _AdminInfoListViewState();
 }
 
-class _AdminInfoListViewState extends State<AdminInfoListView> {
+class _AdminInfoListViewState extends State<SuperAdminInfoListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

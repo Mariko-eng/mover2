@@ -2,14 +2,14 @@ import 'package:bus_stop_develop_admin/models/user/userClientModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class AllClients extends StatefulWidget {
-  const AllClients({Key? key}) : super(key: key);
+class SuperAllClientsListView extends StatefulWidget {
+  const SuperAllClientsListView({Key? key}) : super(key: key);
 
   @override
   _AllClientsState createState() => _AllClientsState();
 }
 
-class _AllClientsState extends State<AllClients> {
+class _AllClientsState extends State<SuperAllClientsListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

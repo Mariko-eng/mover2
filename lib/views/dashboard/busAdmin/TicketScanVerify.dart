@@ -296,7 +296,7 @@ class _TicketScanVerifyState extends State<TicketScanVerify> {
                                     case ConnectionState.done:
                                       return ticket == null
                                           ? Container()
-                                          : TicketTile(
+                                          : BusAdminTicketTile(
                                               company: userProvider.busCompany!,
                                               tripTicket: ticket);
                                   }

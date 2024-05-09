@@ -4,7 +4,7 @@ import 'package:bus_stop_develop_admin/views/shared/loading.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../shared/utils.dart';
+import '../../../shared/utils.dart';
 
 class AllTrips extends StatefulWidget {
   const AllTrips({Key? key}) : super(key: key);

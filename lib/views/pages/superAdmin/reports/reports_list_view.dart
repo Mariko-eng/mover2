@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/reports_trips/trips.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/transactions_list_view.dart';
 import 'package:intl/intl.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/reports/reports_trips/trips.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/reports/transactions_list_view.dart';
 
-class BusReportsListView extends StatefulWidget {
-  final BusCompany company;
+class SuperAdminReportsListView extends StatefulWidget {
 
-  const BusReportsListView({super.key, required this.company});
+  const SuperAdminReportsListView({super.key});
 
   @override
-  State<BusReportsListView> createState() => _BusReportsListViewState();
+  State<SuperAdminReportsListView> createState() => _BusReportsListViewState();
 }
 
-class _BusReportsListViewState extends State<BusReportsListView> {
+class _BusReportsListViewState extends State<SuperAdminReportsListView> {
   TextEditingController dateInput = TextEditingController();
 
   late DateTime _dateTime;
@@ -111,13 +109,11 @@ class _BusReportsListViewState extends State<BusReportsListView> {
         ),
         body: TabBarView(
           children: [
-            BusAdminReportTripsListView(
-              company: widget.company,
+            SuperAdminReportTripsListView(
               dateTime: _dateTime,
               dateInput: dateInput,
             ),
-            BusCompanyTransactionsListView(
-              company: widget.company,
+            SuperAdminTransactionsListView(
               dateTime: _dateTime,
               dateInput: dateInput,
             )

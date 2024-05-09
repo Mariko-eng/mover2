@@ -64,6 +64,27 @@ class _BusTripsActiveState extends State<BusTripsActive> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(trip.tripType.toUpperCase()),
+                                  trip.isClosed == false
+                                      ? Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 2),
+                                          color: Colors.green,
+                                          child: Text(
+                                            "Open",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )
+                                      : Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 2),
+                                          color: Colors.black,
+                                          child: Text(
+                                            "Closed",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )
                                 ],
                               ),
                             ),

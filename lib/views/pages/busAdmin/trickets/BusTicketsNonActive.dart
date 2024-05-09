@@ -68,7 +68,7 @@ class _BusTicketNonActiveState extends State<BusTicketNonActive> {
                       case ConnectionState.done:
                         return ticket == null
                             ? Container()
-                            : TicketTile(
+                            : BusAdminTicketTile(
                                 company: widget.company, tripTicket: ticket);
                     }
                   },

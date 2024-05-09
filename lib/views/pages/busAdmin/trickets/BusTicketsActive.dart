@@ -1,9 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
-import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketTile.dart';
 import 'package:bus_stop_develop_admin/views/shared/loading.dart';
-import 'package:flutter/material.dart';
 
 class BusTicketsActive extends StatefulWidget {
   // final AdminUserModel user;
@@ -68,7 +67,7 @@ class _BusTicketsActiveState extends State<BusTicketsActive> {
                         return const Text('Searching... ');
                       case ConnectionState.done:
                         return ticket == null ? Container() :
-                        TicketTile(
+                        BusAdminTicketTile(
                             company: widget.company,
                             tripTicket: ticket);
                     }

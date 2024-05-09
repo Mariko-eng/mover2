@@ -15,7 +15,7 @@ class ReportModel {
   ReportModel({required this.trip, required this.tickets});
 }
 
-Future<List<ReportModel>> getReports({required DateTime date}) async {
+Future<List<ReportModel>> getReportsByDate({required DateTime date}) async {
   try {
     final startDate = DateTime(date.year, date.month, date.day);
     final endDate = DateTime(date.year, date.month, date.day + 1);

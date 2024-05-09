@@ -21,6 +21,7 @@ class AppCollections {
   static CollectionReference clientsRef = testClients;
   static CollectionReference companiesRef = testCompanies;
   static CollectionReference destinationsRef = testDestinations;
+  static CollectionReference transactionsRef = testTransactions;
   static CollectionReference ticketsRef = testTickets;
   static CollectionReference ticketsPreRef = testTicketsPre;
   static CollectionReference ticketsHistoryRef = testTicketsHistory;

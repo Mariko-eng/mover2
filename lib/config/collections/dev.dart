@@ -6,6 +6,7 @@ CollectionReference testClients = FirebaseFirestore.instance.collection("test_cl
 CollectionReference testCompanies = FirebaseFirestore.instance.collection("test_companies");
 CollectionReference testDestinations = FirebaseFirestore.instance.collection("test_destinations");
 CollectionReference testNotifications = FirebaseFirestore.instance.collection("test_notifications");
+CollectionReference testTransactions = FirebaseFirestore.instance.collection("test_transactions");
 CollectionReference testTickets = FirebaseFirestore.instance.collection("test_tickets");
 CollectionReference testTicketsPre = FirebaseFirestore.instance.collection("test_tickets_pre");
 CollectionReference testTicketsHistory = FirebaseFirestore.instance.collection("test_tickets_history");

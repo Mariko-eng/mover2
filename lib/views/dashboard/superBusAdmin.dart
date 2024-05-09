@@ -1,19 +1,19 @@
-import 'package:bus_stop_develop_admin/views/pages/user_account/super_admin/myAccount.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bus_stop_develop_admin/controllers/authProvider.dart';
 import 'package:bus_stop_develop_admin/models/user/user.dart';
+import 'package:bus_stop_develop_admin/views/pages/user_account/super_admin/myAccount.dart';
 import 'package:bus_stop_develop_admin/views/pages/user_account/super_admin/list.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllClients.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/clients/AllClients.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/destinations/AllDestinationsList.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllNotifications.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllTickets.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/AllTrips.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/SettingsScreen.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/notifications/AllNotifications.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/tickets/AllTickets.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/trips/AllTrips.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/settings/SettingsScreen.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/bus_company/BusCompanyList.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoListView.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/reports/reports_list_view.dart';
+import 'package:bus_stop_develop_admin/views/pages/superAdmin/transactions/AllTransactionsList.dart';
 
 
 class DashboardSuperAdmin extends StatefulWidget {
@@ -34,9 +34,6 @@ class _DashboardSuperAdminState extends State<DashboardSuperAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
-    // userProvider.getLatestNotifications();
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90),
@@ -195,7 +192,7 @@ class _DashboardSuperAdminState extends State<DashboardSuperAdmin> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            "Actions",
+                            "Options",
                             style: TextStyle(color: Colors.red),
                           ),
                           Icon(Icons.arrow_drop_down_circle_outlined,
@@ -205,97 +202,85 @@ class _DashboardSuperAdminState extends State<DashboardSuperAdmin> {
                       ),
                     ),
                     const SizedBox(height: 20,),
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(() => AdminInfoListView());
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => SuperAdminAllTransactionsList());
                       },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("News & Info"),
-                          Icon(Icons.info,color: Colors.red,),
-                        ],
-                      ),
+                      leading: Icon(Icons.receipt, color: Colors.red,),
+                      title: Text("Transactions"),
+                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
-                    const SizedBox(height: 5,),
                     Divider(),
                     const SizedBox(height: 5,),
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(() => AllClients());
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => SuperAllClientsListView());
                       },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("Registered Clients"),
-                          Icon(Icons.people,color: Colors.red,),
-                        ],
-                      ),
+                      leading: Icon(Icons.people, color: Colors.red,),
+                      title: Text("Clients"),
+                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
-                    const SizedBox(height: 5,),
                     Divider(),
                     const SizedBox(height: 5,),
-                    GestureDetector(
-                      onTap: (){
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => SuperAdminInfoListView());
+                      },
+                      leading: Icon(Icons.info, color: Colors.red,),
+                      title: Text("News & Info"),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    Divider(),
+                    const SizedBox(height: 5,),
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => SuperAdminReportsListView());
+                      },
+                      leading: Icon(Icons.folder_copy, color: Colors.red,),
+                      title: Text("Reports"),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    Divider(),
+                    const SizedBox(height: 5,),
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => SuperAdminNotificationsListView());
+                      },
+                      leading: Icon(Icons.notification_important, color: Colors.red,),
+                      title: Text("Notifications"),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    Divider(),
+                    const SizedBox(height: 5,),
+                    ListTile(
+                      onTap: () {
                         Get.to(() => SuperAdminUserAccountsListView());
                       },
-                      child: const Row(
-                        children: [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("Super User Accounts"),
-                          Icon(Icons.people_alt_outlined,color: Colors.red,),
-                        ],
-                      ),
+                      leading: Icon(Icons.people_alt_outlined, color: Colors.red,),
+                      title: Text("Super User Accounts"),
+                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
-                    const SizedBox(height: 5,),
                     Divider(),
                     const SizedBox(height: 5,),
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(() => AllSuperAdminNotifications());
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("Notifications"),
-                          Icon(Icons.notifications,color: Colors.red,),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 5,),
-                    Divider(),
-                    const SizedBox(height: 5,),
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(() => MyAccountView());
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("My Account"),
-                          Icon(Icons.person,color: Colors.red,),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 5,),
-                    Divider(),
-                    GestureDetector(
-                      onTap: (){
+
+                    ListTile(
+                      onTap: () {
                         Get.to(() => SettingsScreen());
                       },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.arrow_right,size: 10,),
-                          SizedBox(width: 10,),
-                          Text("Settings/Support"),
-                          Icon(Icons.settings,color: Colors.red,),
-                        ],
-                      ),
+                      leading: Icon(Icons.settings, color: Colors.red,),
+                      title: Text("Contact Us"),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    Divider(),
+                    const SizedBox(height: 5,),
+
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => MyAccountView());
+                      },
+                      leading: Icon(Icons.person, color: Colors.red,),
+                      title: Text("My Account"),
+                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
                     const SizedBox(height: 20,),
                   ],

@@ -4,7 +4,6 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/destinations/park_lo
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class BusCompanyDestinationsListView extends StatefulWidget {
   final BusCompany company;
   const BusCompanyDestinationsListView({super.key, required this.company});

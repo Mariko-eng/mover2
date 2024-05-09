@@ -272,7 +272,10 @@ class _AdminInfoNewViewState extends State<AdminInfoNewView> {
                                     title: titleCtr.text.trim(),
                                     subTitle: subTitleCtr.text.trim(),
                                     image: _image!,
-                                    description: descCtr.text.trim());
+                                    description: descCtr.text.trim(),
+                                     busCompanyId: "",
+                                     busCompanyName: ""
+                                 );
 
                                  if (res == true){
                                    Get.snackbar("Success",

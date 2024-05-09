@@ -4,7 +4,7 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusCompanyT
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../shared/loading.dart';
+import '../../../shared/loading.dart';
 
 class AllTickets extends StatefulWidget {
   const AllTickets({Key? key}) : super(key: key);

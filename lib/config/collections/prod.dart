@@ -5,6 +5,7 @@ CollectionReference prodAdminAccounts = FirebaseFirestore.instance.collection("a
 CollectionReference prodClients = FirebaseFirestore.instance.collection("clients");
 CollectionReference prodCompanies = FirebaseFirestore.instance.collection("companies");
 CollectionReference prodDestinations = FirebaseFirestore.instance.collection("destinations");
+CollectionReference prodTransactions = FirebaseFirestore.instance.collection("transactions");
 CollectionReference prodTickets = FirebaseFirestore.instance.collection("tickets");
 CollectionReference prodTicketsPre = FirebaseFirestore.instance.collection("tickets_pre");
 CollectionReference prodTicketsHistory = FirebaseFirestore.instance.collection("tickets_history");
