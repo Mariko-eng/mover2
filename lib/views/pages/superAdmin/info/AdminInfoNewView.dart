@@ -263,11 +263,11 @@ class _AdminInfoNewViewState extends State<AdminInfoNewView> {
                                   Colors.red);
                               return;
                             }else{
-                              print("here 123");
                               try{
                                 setState(() {
                                   isSaving = true;
                                 });
+
                                  bool res = await addNewInfo(
                                     title: titleCtr.text.trim(),
                                     subTitle: subTitleCtr.text.trim(),

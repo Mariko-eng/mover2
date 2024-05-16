@@ -8,6 +8,7 @@ class AppCollections {
   // static CollectionReference clientsRef = prodClients;
   // static CollectionReference companiesRef = prodCompanies;
   // static CollectionReference destinationsRef = prodDestinations;
+  // static CollectionReference transactionsRef = prodTransactions;
   // static CollectionReference ticketsRef = prodTickets;
   // static CollectionReference ticketsPreRef = prodTicketsPre;
   // static CollectionReference ticketsHistoryRef = prodTicketsHistory;

@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:bus_stop_develop_admin/services/cloud_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
 
 class InfoModel {
@@ -11,7 +13,6 @@ class InfoModel {
   final String description;
   final String busCompanyId;
   final String busCompanyName;
-
 
   InfoModel({
     required this.id,
@@ -52,29 +53,27 @@ Future<bool> addNewInfo({
   required String busCompanyName,
 }) async {
   try {
-    String? fileName = await uploadFile(image: image);
+    print("Start : Uploading Image");
 
-    if (fileName != null) {
-      String imageUrl = await getDownloadURL(fileName);
+    Map<String, dynamic> uploadResults =
+        await uploadFileToFirebaseStorage(image: image);
 
-      print("Adding To News & Info");
+    print("Finish : Uploading Image");
 
-      if (imageUrl != "") {
-        var data = {
-          "title": title,
-          "subTitle": subTitle,
-          "imageUrl": imageUrl,
-          "description": description,
-          "busCompanyId": busCompanyId,
-          "busCompanyName" : busCompanyName
-        };
+    print("Adding To News & Info");
 
-        await AppCollections.infoRef.add(data);
-        print("Done!");
-        return true;
-      }
-    }
-    return false;
+    var data = {
+      "title": title,
+      "subTitle": subTitle,
+      "imageUrl": uploadResults['fileLink'],
+      "description": description,
+      "busCompanyId": busCompanyId,
+      "busCompanyName": busCompanyName
+    };
+
+    await AppCollections.infoRef.add(data);
+    print("Done!");
+    return true;
   } catch (e) {
     throw Exception(e.toString());
   }
@@ -95,27 +94,24 @@ Future<bool> editNewInfo({
       "subTitle": subTitle,
       "description": description,
       "busCompanyId": busCompanyId,
-      "busCompanyName" : busCompanyName
+      "busCompanyName": busCompanyName
     });
 
     if (image != null) {
-      String? fileName = await uploadFile(image: image);
+      print("Start : Uploading Image");
 
-      if (fileName != null) {
-        String imageUrl = await getDownloadURL(fileName);
+      Map<String, dynamic> uploadResults =
+          await uploadFileToFirebaseStorage(image: image);
 
-        print("Updating News & Info");
+      print("Finish : Uploading Image");
 
-        if (imageUrl != "") {
-          await AppCollections.infoRef.doc(infoModel.id).update({
-            "imageUrl": imageUrl,
-          });
+      print("Updating News & Info");
 
-          print("Done!");
-          return true;
-        }
-      }
-    } else {
+      await AppCollections.infoRef.doc(infoModel.id).update({
+        "imageUrl": uploadResults['fileLink'],
+      });
+
+      print("Done!");
       return true;
     }
     return false;
@@ -124,54 +120,6 @@ Future<bool> editNewInfo({
   }
 }
 
-Future<String?> uploadFile({
-  required File image,
-}) async {
-  try {
-    FirebaseStorage storage = FirebaseStorage.instance;
-    const String folderName = "info";
-    final fileName = image.path;
-    // final destination = 'files/$fileName${DateTime.now().toIso8601String()}';
-    final destination =
-        '$folderName/${DateTime.now().toIso8601String()}$fileName';
-    print("destination");
-    print(destination);
-
-    // final ref = storage.ref(destination).child('file/');
-    final ref = storage
-        .ref()
-        .child(destination); // Specify the folder using child method
-    // final ref = storage.ref(destination); // Specify the folder using child method
-    // Upload the file to Firebase Storage
-    await ref.putFile(image);
-
-    print("Finished Uploading!");
-    // print("Ref name : " + ref.name);
-    // print("Ref bucket : " + ref.bucket);
-    // print("Ref fullPath : " + ref.fullPath);
-    // print("fileName" + fileName);
-
-    // return fileName;
-    return destination;
-  } catch (e) {
-    print("Upload Error : " + e.toString());
-    return null;
-    // throw Exception(e.toString());
-  }
-}
-
-Future<String> getDownloadURL(String fileName) async {
-  print("fileName" + fileName);
-
-  try {
-    return await FirebaseStorage.instance
-        .ref()
-        .child(fileName)
-        .getDownloadURL();
-  } catch (e) {
-    return "";
-  }
-}
 
 Future<bool> deleteNewInfo({
   required InfoModel infoModel,
