@@ -4,9 +4,9 @@ import 'package:bus_stop_develop_admin/controllers/authProvider.dart';
 import 'package:bus_stop_develop_admin/views/auth/login.dart';
 import 'package:bus_stop_develop_admin/views/shared/loading.dart';
 import 'package:bus_stop_develop_admin/views/shared/page404.dart';
-import 'package:bus_stop_develop_admin/views/dashboard/superBusAdmin.dart';
+import 'package:bus_stop_develop_admin/views/dashboard/superAdmin/superBusAdmin.dart';
 import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/index.dart';
-import 'package:bus_stop_develop_admin/views/dashboard/busConductor.dart';
+import 'package:bus_stop_develop_admin/views/dashboard/busConductor/busConductor.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);

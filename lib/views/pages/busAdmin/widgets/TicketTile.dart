@@ -1,14 +1,16 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/views/shared/loading.dart';
-import 'package:flutter/material.dart';
-import '../../shared/utils.dart';
+import '../../../shared/utils.dart';
 
-class BusAdminTicketTile extends StatefulWidget {
+class BusAdminTicketTileWidget extends StatefulWidget {
   final BusCompany company;
   final TripTicket tripTicket;
 
-  const BusAdminTicketTile(
+  const BusAdminTicketTileWidget(
       {Key? key,
       required this.company,
       required this.tripTicket})
@@ -18,8 +20,10 @@ class BusAdminTicketTile extends StatefulWidget {
   _TicketTileState createState() => _TicketTileState();
 }
 
-class _TicketTileState extends State<BusAdminTicketTile> {
+class _TicketTileState extends State<BusAdminTicketTileWidget> {
+  TextEditingController _ctr = TextEditingController();
   bool isUpdating = false;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -50,7 +54,7 @@ class _TicketTileState extends State<BusAdminTicketTile> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 180,
+                height: 220,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(10)),
@@ -224,6 +228,59 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                               ],
                             ),
                             SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.cyan,
+                                    size: 20,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                    widget
+                                        .tripTicket.buyerNames,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    )),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Icon(
+                                    Icons.arrow_right_alt,
+                                    color: Colors.white70,
+                                    size: 20,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                    widget.tripTicket.buyerPhoneNumber,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            ),
+                            SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -234,7 +291,7 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                          fontSize: 12,
+                                          fontSize: 14,
                                           color: Colors.yellow,
                                         )),
                                 SizedBox(
@@ -249,6 +306,22 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                                           color: Colors.white70,
                                         )),
                               ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(widget.tripTicket.createdAt.toDate().toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                      fontSize: 14,
+                                      color: Colors.blue[900],
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
                             ),
                           ],
                         ),
@@ -279,7 +352,7 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                             height: 5,
                           ),
                           Text(
-                            widget.tripTicket.numberOfTickets.toString(),
+                            widget.tripTicket.seatNumber,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -311,6 +384,7 @@ class _TicketTileState extends State<BusAdminTicketTile> {
 
   Widget _getTicketOptions() {
     final options = [
+      "Assign Seat Number",
       "Use Ticket Now",
       // "Re-Assign Ticket",
       "Cancel Ticket"
@@ -323,6 +397,10 @@ class _TicketTileState extends State<BusAdminTicketTile> {
         children: options
             .map((option) => ListTile(
                   onTap: () async {
+                    if (option == "Assign Seat Number") {
+                      Navigator.of(context).pop();
+                      _assignSeatNumber(widget.tripTicket);
+                    }
                     if (option == "Use Ticket Now") {
                       Navigator.of(context).pop();
                       setState(() {
@@ -344,16 +422,6 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                         });
                       }
                     }
-                    // if (option == "Re-Assign Ticket") {
-                    //   Navigator.of(context).pop();
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => TicketReAssign(
-                    //                 user: widget.user,
-                    //                 tripTicket: widget.tripTicket,
-                    //               )));
-                    // }
                     if (option == "Cancel Ticket") {
                       Navigator.of(context).pop();
                       setState(() {
@@ -371,6 +439,16 @@ class _TicketTileState extends State<BusAdminTicketTile> {
                         });
                       }
                     }
+                    // if (option == "Re-Assign Ticket") {
+                    //   Navigator.of(context).pop();
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => TicketReAssign(
+                    //                 user: widget.user,
+                    //                 tripTicket: widget.tripTicket,
+                    //               )));
+                    // }
                   },
                   title: Column(
                     children: [
@@ -388,4 +466,108 @@ class _TicketTileState extends State<BusAdminTicketTile> {
       ),
     );
   }
+
+  Future<void> _assignSeatNumber(TripTicket ticket) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+            width: double.infinity,
+            height: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "Assign Seat Number To Ticket?",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                          height: 50,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "Enter Number Here",
+                              border: OutlineInputBorder()
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Text(
+                  "CANCEL",
+                  style: TextStyle(color: Colors.red[900]),
+                )),
+            const SizedBox(
+              width: 5,
+            ),
+            GestureDetector(
+                onTap: () async {
+                  try {
+                    if(_ctr.text.trim().isEmpty) {
+                      Get.snackbar("Failed!", "Please Provide A value",
+                          backgroundColor: Colors.red);
+                      return;
+                    }
+                    if(isSubmitting) {
+                      return;
+                    }
+                    setState(() {
+                      isSubmitting = true;
+                    });
+                    var res = await assignTicketSeatNumber(ticketId: ticket.ticketId, seatNumber: _ctr.text);
+                    setState(() {
+                      isSubmitting = false;
+                    });
+                    if(res.status == true) {
+                      Get.snackbar("Great!", res.message,
+                          backgroundColor: Colors.green);
+                      Get.back();
+                    }else{
+                      Get.snackbar("Failed!", res.message,
+                          backgroundColor: Colors.red);
+                    }
+                  }catch (e){
+                    setState(() {
+                      isSubmitting = false;
+                    });
+                    Get.snackbar("Failed!", "Something Went wrong!",
+                        backgroundColor: Colors.red);
+                    Get.back();
+                  }
+                },
+                child: Container(
+                  height: 30,
+                  width: 100,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue[900]!),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text(
+                    isSubmitting ? " ... " : "SUBMIT",
+                    style: TextStyle(color: Colors.blue[900]),
+                  ),
+                ))
+          ],
+        );
+      },
+    );
+  }
+
 }

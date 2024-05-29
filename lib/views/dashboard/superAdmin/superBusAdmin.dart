@@ -7,12 +7,9 @@ import 'package:bus_stop_develop_admin/views/pages/user_account/super_admin/list
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/clients/AllClients.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/destinations/AllDestinationsList.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/notifications/AllNotifications.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/tickets/AllTickets.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/trips/AllTrips.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/settings/SettingsScreen.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/bus_company/BusCompanyList.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/info/AdminInfoListView.dart';
-import 'package:bus_stop_develop_admin/views/pages/superAdmin/reports/reports_list_view.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/transactions/AllTransactionsList.dart';
 
 
@@ -134,50 +131,6 @@ class _DashboardSuperAdminState extends State<DashboardSuperAdmin> {
                   ),
                 ),
                 const SizedBox(height: 10,),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: (){
-                            Get.to(() => AllTrips());
-                          },
-                          child: Container(
-                            height: 150,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: const Text("Trips",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 5,),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: (){
-                            Get.to(() => AllTickets());
-                          },
-                          child: Container(
-                            height: 150,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Text("Tickets",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 10,),
                 Column(
                   children: [
@@ -228,16 +181,6 @@ class _DashboardSuperAdminState extends State<DashboardSuperAdmin> {
                       },
                       leading: Icon(Icons.info, color: Colors.red,),
                       title: Text("News & Info"),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                    ),
-                    Divider(),
-                    const SizedBox(height: 5,),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => SuperAdminReportsListView());
-                      },
-                      leading: Icon(Icons.folder_copy, color: Colors.red,),
-                      title: Text("Reports"),
                       trailing: Icon(Icons.arrow_forward_ios),
                     ),
                     Divider(),

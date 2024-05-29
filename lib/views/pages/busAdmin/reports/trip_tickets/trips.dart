@@ -1,4 +1,4 @@
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/reports_trips/tickets.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/trip_tickets/tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bus_stop_develop_admin/models/reports.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/TicketScanVerify.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketTile.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/widgets/TicketTile.dart';
 import 'package:bus_stop_develop_admin/views/shared/loading.dart';
 
 class TicketNumberVerify extends StatefulWidget {
@@ -158,7 +158,7 @@ class _TicketNumberVerifyState extends State<TicketNumberVerify> {
                           case ConnectionState.done:
                             return ticket == null
                                 ? Container()
-                                : BusAdminTicketTile(
+                                : BusAdminTicketTileWidget(
                                     company: widget.company,
                                     tripTicket: ticket);
                         }

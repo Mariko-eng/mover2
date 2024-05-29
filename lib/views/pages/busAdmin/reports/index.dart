@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/reports_trips/trips.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/transactions_list_view.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/trip_tickets/trips.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/transactions/transactions_list_view.dart';
 import 'package:intl/intl.dart';
 
-class BusReportsListView extends StatefulWidget {
+class BusAdminReportsListView extends StatefulWidget {
   final BusCompany company;
 
-  const BusReportsListView({super.key, required this.company});
+  const BusAdminReportsListView({super.key, required this.company});
 
   @override
-  State<BusReportsListView> createState() => _BusReportsListViewState();
+  State<BusAdminReportsListView> createState() => _BusReportsListViewState();
 }
 
-class _BusReportsListViewState extends State<BusReportsListView> {
+class _BusReportsListViewState extends State<BusAdminReportsListView> {
   TextEditingController dateInput = TextEditingController();
 
   late DateTime _dateTime;
@@ -46,9 +46,22 @@ class _BusReportsListViewState extends State<BusReportsListView> {
                   'assets/images/back_arrow.png',
                 )),
           ),
-          title: Text(
-            "Reports".toUpperCase(),
-            style: TextStyle(color: Colors.red[900]),
+          centerTitle: true,
+          title: Column(
+            children: [
+              Text(
+                widget.company.name.toUpperCase(),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.red[900],fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "Reports".toUpperCase(),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.blue[900]),
+              ),
+            ],
           ),
           bottom: PreferredSize(
             preferredSize: Size(double.infinity, 80),

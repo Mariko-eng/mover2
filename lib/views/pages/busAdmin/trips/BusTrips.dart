@@ -6,15 +6,15 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/widgets/BusTri
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsNewView.dart';
 
 
-class BusTrips extends StatefulWidget {
+class BusAdminTripsView extends StatefulWidget {
   final BusCompany company;
-  const BusTrips({Key? key,required this.company}) : super(key: key);
+  const BusAdminTripsView({Key? key,required this.company}) : super(key: key);
 
   @override
   _BusTripsState createState() => _BusTripsState();
 }
 
-class _BusTripsState extends State<BusTrips> {
+class _BusTripsState extends State<BusAdminTripsView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,9 +24,21 @@ class _BusTripsState extends State<BusTrips> {
             backgroundColor: Color(0xfffdfdfd),
             elevation: 0,
             centerTitle: true,
-            title: const Text(
-              "Company Trips",
-              style: TextStyle(color: Color(0xffE4181D)),
+            title: Column(
+              children: [
+                Text(
+                  widget.company.name.toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.red[900],fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Trips".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue[900]),
+                ),
+              ],
             ),
             leading: GestureDetector(
               onTap: () {

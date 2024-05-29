@@ -4,7 +4,7 @@ import '../../../shared/loading.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketTile.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/widgets/TicketTile.dart';
 
 
 class BusCompanyTripsTickets extends StatefulWidget {
@@ -128,7 +128,7 @@ class _TripsTicketListState extends State<TicketList> {
                         case ConnectionState.done:
                           return ticket == null
                               ? Container()
-                              : BusAdminTicketTile(
+                              : BusAdminTicketTileWidget(
                                   company: widget.company, tripTicket: ticket);
                       }
                     },

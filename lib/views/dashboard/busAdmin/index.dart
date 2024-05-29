@@ -1,4 +1,3 @@
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/transactions/list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,8 +10,9 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/destinations/destina
 import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/BusCompanyProfile.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/TicketNumberVerify.dart';
 import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/Notifications.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/reports_list_view.dart';
 import 'package:bus_stop_develop_admin/views/pages/user_account/bus_admin/list.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/index.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/transactions/list.dart';
 
 class DashboardBusAdmin extends StatefulWidget {
   final AdminUserModel user;
@@ -100,7 +100,7 @@ class _DashboardAdminState extends State<DashboardBusAdmin> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(() => BusTrips(
+                                      Get.to(() => BusAdminTripsView(
                                         company: userProvider.busCompany!,
                                       ));
                                     },
@@ -132,7 +132,7 @@ class _DashboardAdminState extends State<DashboardBusAdmin> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(() => BusCompanyTickets(
+                                      Get.to(() => BusAdminTicketsView(
                                         company: userProvider.busCompany!,
                                       ));
                                     },
@@ -168,7 +168,7 @@ class _DashboardAdminState extends State<DashboardBusAdmin> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(() => BusDestinationsListView(
+                                      Get.to(() => BusAdminDestinationsListView(
                                         company: userProvider.busCompany!,
                                       ));
                                     },
@@ -200,7 +200,7 @@ class _DashboardAdminState extends State<DashboardBusAdmin> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(() => BusReportsListView(
+                                      Get.to(() => BusAdminReportsListView(
                                         company: userProvider.busCompany!,
                                       ));
                                     },

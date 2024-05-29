@@ -1,20 +1,18 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/tripNumbers.dart';
-import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusTicketsActive.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusTicketsNonActive.dart';
 import 'package:flutter/material.dart';
 
-class BusCompanyTickets extends StatefulWidget {
-  // final AdminUserModel user;
+class BusAdminTicketsView extends StatefulWidget {
   final BusCompany company;
-  const BusCompanyTickets({Key? key, required this.company}) : super(key: key);
+  const BusAdminTicketsView({Key? key, required this.company}) : super(key: key);
 
   @override
   _BusCompanyTicketsState createState() => _BusCompanyTicketsState();
 }
 
-class _BusCompanyTicketsState extends State<BusCompanyTickets> {
+class _BusCompanyTicketsState extends State<BusAdminTicketsView> {
   final _tripNoController = TextEditingController();
   final _tripIdController = TextEditingController();
 
@@ -39,9 +37,21 @@ class _BusCompanyTicketsState extends State<BusCompanyTickets> {
             backgroundColor: Color(0xfffdfdfd),
             elevation: 0,
             centerTitle: true,
-            title: const Text(
-              "Company Tickets",
-              style: TextStyle(color: Color(0xffE4181D)),
+            title: Column(
+              children: [
+                Text(
+                  widget.company.name.toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.red[900],fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Tickets".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue[900]),
+                ),
+              ],
             ),
             leading: GestureDetector(
               onTap: () {

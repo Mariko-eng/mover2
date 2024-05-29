@@ -4,17 +4,17 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/destinations/park_lo
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BusDestinationsListView extends StatefulWidget {
+class BusAdminDestinationsListView extends StatefulWidget {
   final BusCompany company;
 
-  const BusDestinationsListView({super.key, required this.company});
+  const BusAdminDestinationsListView({super.key, required this.company});
 
   @override
-  State<BusDestinationsListView> createState() =>
+  State<BusAdminDestinationsListView> createState() =>
       _BusDestinationsListViewState();
 }
 
-class _BusDestinationsListViewState extends State<BusDestinationsListView> {
+class _BusDestinationsListViewState extends State<BusAdminDestinationsListView> {
   final _searchCtr = TextEditingController();
 
   @override
