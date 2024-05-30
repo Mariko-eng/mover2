@@ -1,3 +1,4 @@
+import 'package:bus_stop_develop_admin/config/collections/index.dart';
 import 'package:bus_stop_develop_admin/controllers/authProvider.dart';
 import 'package:bus_stop_develop_admin/controllers/locProvider.dart';
 import 'package:bus_stop_develop_admin/views/auth/wrapper.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  AppCollections();
   runApp(const BusStopAdminApp());
 }
 

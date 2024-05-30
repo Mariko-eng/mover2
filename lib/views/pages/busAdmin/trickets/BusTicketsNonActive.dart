@@ -51,10 +51,9 @@ class _BusTicketNonActiveState extends State<BusTicketNonActive> {
                     TripTicket? ticket = snapshot.data;
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        if (index == 0) {
-                          return const LoadingWidget();
-                        }
-
+                        // if (index == 0) {
+                        //   return const LoadingWidget();
+                        // }
                         return Container();
                       case ConnectionState.none:
                         return const Text(
@@ -76,7 +75,7 @@ class _BusTicketNonActiveState extends State<BusTicketNonActive> {
               },
             );
           }
-          return Container();
+          return const LoadingWidget();
         });
   }
 }

@@ -72,102 +72,103 @@ Stream<List<BusCompanyUserModel>> getSingleBusCompanyUserAccounts(
   });
 }
 
-Future<bool> createBusAdminAccount({
-  required BusCompany busCompany,
-  required UserGroupModel group,
-  required String username,
-  required String phoneNumber,
-  required String email,
-  required String password,
-}) async {
-  AdminUserModel? exists = await checkIfUserExistsByEmail(email);
-  // bool exists =  await checkIfUserExists(email);
-  if (exists != null) {
-    throw "Account Already Exists!";
-  }
-
-  bool isRegistered = await isEmailAlreadyRegistered(email);
-
-  if (isRegistered == true) {
-    throw "Account Already Exists!";
-    // throw Exception("Account Already Exists!");
-  }
-
-  FirebaseApp busApp = await Firebase.initializeApp(
-      name: 'bus', options: Firebase.app().options);
-  FirebaseAuth authCreateNewAccount = FirebaseAuth.instanceFor(app: busApp);
-  try {
-    UserCredential result = await authCreateNewAccount
-        .createUserWithEmailAndPassword(email: email, password: password);
-
-    if (result.user != null) {
-      await adminAccountsCollection.doc(result.user!.uid).set({
-        "companyId": busCompany.uid,
-        "company": busCompany.toMap(),
-        "groupId": group.id,
-        "group": group.name,
-        // "group": "bus_admin",
-        "groupDesc": group.desc,
-        "name": username,
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "password": password,
-        "isActive": true,
-        "isMainAccount": false,
-      });
-    }
-    await busApp.delete();
-    return true;
-  } catch (e) {
-    String err = e.toString();
-    if (kDebugMode) {
-      print(err);
-    }
-    await busApp.delete();
-    return false;
-  }
-}
-
-Future<bool> editBusAdminAccount({
-  required String accountId,
-  required UserGroupModel group,
-  required String username,
-  required String phoneNumber,
-}) async {
-  try {
-    await adminAccountsCollection.doc(accountId).update({
-      "groupId": group.id,
-      "group": group.name,
-      "groupDesc": group.desc,
-      "name": username,
-      "phoneNumber": phoneNumber,
-    });
-
-    return true;
-  } catch (e) {
-    print(e.toString());
-    return false;
-  }
-}
-
-Future deleteBusCompanyUserAccount(
-    {required BusCompanyUserModel busAdminModel}) async {
-  FirebaseApp busApp = await Firebase.initializeApp(
-      name: 'busCompany', options: Firebase.app().options);
-  FirebaseAuth authCourierApp = FirebaseAuth.instanceFor(app: busApp);
-  try {
-    UserCredential result = await authCourierApp.signInWithEmailAndPassword(
-        email: busAdminModel.email, password: busAdminModel.password);
-
-    await adminAccountsCollection.doc(result.user!.uid).delete();
-    await result.user!.delete();
-    await busApp.delete();
-    return "Success";
-  } catch (e) {
-    String err = e.toString();
-    print("Error");
-    print(err);
-    await busApp.delete();
-    return null;
-  }
-}
+// Future<bool> createBusAdminAccount({
+//   required BusCompany busCompany,
+//   required UserGroupModel group,
+//   required String username,
+//   required String phoneNumber,
+//   required String email,
+//   required String password,
+// }) async {
+//   AdminUserModel? exists = await checkIfUserExistsByEmail(email);
+//   // bool exists =  await checkIfUserExists(email);
+//   if (exists != null) {
+//     throw "Account Already Exists!";
+//   }
+//
+//   bool isRegistered = await isEmailAlreadyRegistered(email);
+//
+//   if (isRegistered == true) {
+//     throw "Account Already Exists!";
+//     // throw Exception("Account Already Exists!");
+//   }
+//
+//   FirebaseApp busApp = await Firebase.initializeApp(
+//       name: 'bus', options: Firebase.app().options);
+//   FirebaseAuth authCreateNewAccount = FirebaseAuth.instanceFor(app: busApp);
+//   try {
+//     UserCredential result = await authCreateNewAccount
+//         .createUserWithEmailAndPassword(email: email, password: password);
+//
+//     if (result.user != null) {
+//       await adminAccountsCollection.doc(result.user!.uid).set({
+//         "companyId": busCompany.uid,
+//         "company": busCompany.toMap(),
+//         "groupId": group.id,
+//         "group": group.name,
+//         // "group": "bus_admin",
+//         "groupDesc": group.desc,
+//         "name": username,
+//         "phoneNumber": phoneNumber,
+//         "email": email,
+//         "password": password,
+//         "isActive": true,
+//         "isMainAccount": false,
+//       });
+//     }
+//     await busApp.delete();
+//     return true;
+//   } catch (e) {
+//     String err = e.toString();
+//     if (kDebugMode) {
+//       print(err);
+//     }
+//     await busApp.delete();
+//     return false;
+//   }
+// }
+//
+// Future<bool> editBusAdminAccount({
+//   required String accountId,
+//   required UserGroupModel group,
+//   required String username,
+//   required String phoneNumber,
+// }) async {
+//   try {
+//     await adminAccountsCollection.doc(accountId).update({
+//       "groupId": group.id,
+//       "group": group.name,
+//       "groupDesc": group.desc,
+//       "name": username,
+//       "phoneNumber": phoneNumber,
+//     });
+//
+//     return true;
+//   } catch (e) {
+//     print(e.toString());
+//     return false;
+//   }
+// }
+//
+//
+// Future deleteBusCompanyUserAccount(
+//     {required BusCompanyUserModel busAdminModel}) async {
+//   FirebaseApp busApp = await Firebase.initializeApp(
+//       name: 'busCompany', options: Firebase.app().options);
+//   FirebaseAuth authCourierApp = FirebaseAuth.instanceFor(app: busApp);
+//   try {
+//     UserCredential result = await authCourierApp.signInWithEmailAndPassword(
+//         email: busAdminModel.email, password: busAdminModel.password);
+//
+//     await adminAccountsCollection.doc(result.user!.uid).delete();
+//     await result.user!.delete();
+//     await busApp.delete();
+//     return "Success";
+//   } catch (e) {
+//     String err = e.toString();
+//     print("Error");
+//     print(err);
+//     await busApp.delete();
+//     return null;
+//   }
+// }

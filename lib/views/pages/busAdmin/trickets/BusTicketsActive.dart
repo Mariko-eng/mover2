@@ -26,6 +26,7 @@ class _BusTicketsActiveState extends State<BusTicketsActive> {
           if (snapshot.hasError) {
             print(snapshot.error);
           }
+
           if (snapshot.hasData) {
             List<TripTicket>? tickets = snapshot.data;
             if (tickets!.isEmpty) {
@@ -51,10 +52,9 @@ class _BusTicketsActiveState extends State<BusTicketsActive> {
                     TripTicket? ticket = snapshot.data;
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        if (index == 0) {
-                          return const LoadingWidget();
-                        }
-
+                        // if (index == 0) {
+                        //   return const LoadingWidget();
+                        // }
                         return Container();
                       case ConnectionState.none:
                         return const Text(
@@ -76,7 +76,7 @@ class _BusTicketsActiveState extends State<BusTicketsActive> {
               },
             );
           }
-          return Container();
+          return const LoadingWidget();
         });
   }
 }

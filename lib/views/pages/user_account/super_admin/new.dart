@@ -1,3 +1,4 @@
+import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:email_validator/email_validator.dart';
@@ -14,11 +15,10 @@ class SuperAdminUserAccountsNewView extends StatefulWidget {
 
 class _SuperAdminUserAccountsNewViewState
     extends State<SuperAdminUserAccountsNewView> {
-  final _nameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _contactEmailController = TextEditingController();
   final _accountEmailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _phoneHotLineController = TextEditingController();
   final _accountPasswordController = TextEditingController();
 
   bool isLoading = false;
@@ -79,7 +79,7 @@ class _SuperAdminUserAccountsNewViewState
                           children: [
                             Expanded(
                               child: TextFormField(
-                                controller: _nameController,
+                                controller: _usernameController,
                                 minLines: 1,
                                 maxLines: 1,
                                 decoration: InputDecoration(
@@ -139,41 +139,6 @@ class _SuperAdminUserAccountsNewViewState
                                   } else {
                                     return "Phone Is Required/ It is Invalid!";
                                   }
-                                },
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        // border: Border.all(),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [Text("Hotline Number")],
-                        ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: _phoneHotLineController,
-                                minLines: 1,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    border: OutlineInputBorder()),
-                                validator: (String? val) {
-                                  return null;
                                 },
                               ),
                             )
@@ -327,21 +292,18 @@ class _SuperAdminUserAccountsNewViewState
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  bool? result =
-                                      await createSuperBusAdminAccount(
-                                          name: _nameController.text.trim(),
-                                          contactEmail: _contactEmailController
-                                              .text
-                                              .trim(),
-                                          accountEmail: _accountEmailController
-                                              .text
-                                              .trim(),
-                                          phone: _phoneController.text.trim(),
-                                          hotLine: _phoneHotLineController.text
-                                              .trim(),
-                                          password: _accountPasswordController
-                                              .text
-                                              .trim());
+
+                                  bool result = await postAdminData({
+                                    "name" : _usernameController.text.trim(),
+                                    "accountEmail" : _accountEmailController.text.trim(),
+                                    "contactEmail" : _accountEmailController.text.trim(),
+                                    "phoneNumber" : _phoneController.text.trim(),
+                                    "password" : _accountPasswordController.text.trim(),
+                                    "companyId" : "companyId",
+                                    "group" : "super_bus_admin",
+                                    "isMainAccount" : true,
+                                  });
+
                                   if (result == false) {
                                     setState(() {
                                       isLoading = false;
@@ -353,11 +315,11 @@ class _SuperAdminUserAccountsNewViewState
                                   } else {
                                     setState(() {
                                       isLoading = false;
+                                      Get.back();
+                                      Get.snackbar(
+                                          "Success", "Added Admin Account",
+                                          backgroundColor: Colors.greenAccent);
                                     });
-                                    Get.back();
-                                    Get.snackbar(
-                                        "Success", "Added Admin Account",
-                                        backgroundColor: Colors.greenAccent);
                                   }
                                 }
                             },

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
+import 'dart:async';
+
 
 final CollectionReference adminAccountsCollection =
     AppCollections.adminAccountsRef;
@@ -11,6 +13,7 @@ class SuperAdminUserModel {
   String uid;
   String name;
   String email;
+  String password;
   String contactEmail;
   String phoneNumber;
   String hotLine;
@@ -21,7 +24,8 @@ class SuperAdminUserModel {
       {required this.uid,
       required this.name,
       required this.email,
-      required this.contactEmail,
+        required this.password,
+        required this.contactEmail,
       required this.phoneNumber,
       required this.hotLine,
       required this.group,
@@ -33,6 +37,7 @@ class SuperAdminUserModel {
       uid: snap.id,
       name: data["name"] ?? "",
       email: data["email"] ?? "",
+      password: data["password"] ?? "",
       contactEmail: data["contactEmail"] ?? "",
       phoneNumber: data["phoneNumber"] ?? "",
       hotLine: data["hotLine"] ?? "",
@@ -53,67 +58,68 @@ Stream<List<SuperAdminUserModel>> getAdminAccounts() {
   });
 }
 
-Future<bool?> createSuperBusAdminAccount(
-    {required String name,
-    required String phone,
-    required String accountEmail,
-    required String contactEmail,
-    required String password,
-    required String hotLine}) async {
-  FirebaseApp superAdminApp = await Firebase.initializeApp(
-      name: 'superAdmin', options: Firebase.app().options);
-  FirebaseAuth authCreateNewAccount =
-      FirebaseAuth.instanceFor(app: superAdminApp);
+// Future<bool?> createSuperBusAdminAccount(
+//     {required String name,
+//     required String phone,
+//     required String accountEmail,
+//     required String contactEmail,
+//     required String password,
+//     required String hotLine}) async {
+//   FirebaseApp superAdminApp = await Firebase.initializeApp(
+//       name: 'superAdmin', options: Firebase.app().options);
+//   FirebaseAuth authCreateNewAccount =
+//       FirebaseAuth.instanceFor(app: superAdminApp);
+//
+//   try {
+//     UserCredential result =
+//         await authCreateNewAccount.createUserWithEmailAndPassword(
+//             email: accountEmail, password: password);
+//
+//     if (result.user != null) {
+//       await adminAccountsCollection.doc(result.user!.uid).set({
+//         "name": name,
+//         "email": accountEmail,
+//         "contactEmail": contactEmail,
+//         "phoneNumber": phone,
+//         "hotLine": hotLine,
+//         "password": password,
+//         "isActive": true,
+//         "group": "super_bus_admin"
+//       });
+//       await superAdminApp.delete();
+//       return true;
+//     }
+//     return true;
+//   } catch (e) {
+//     String err = e.toString();
+//     if (kDebugMode) {
+//       print(err);
+//     }
+//     await superAdminApp.delete();
+//     return false;
+//   }
+// }
+//
+// Future<bool?> editSuperBusAdminAccount(
+//     {required String accountId,
+//     required String name,
+//     required String phone,
+//     required String contactEmail,
+//     required String hotLine}) async {
+//   try {
+//     await adminAccountsCollection.doc(accountId).set({
+//       "name": name,
+//       "contactEmail": contactEmail,
+//       "phoneNumber": phone,
+//       "hotLine": hotLine,
+//     });
+//     return true;
+//   } catch (e) {
+//     String err = e.toString();
+//     if (kDebugMode) {
+//       print(err);
+//     }
+//     return false;
+//   }
+// }
 
-  try {
-    UserCredential result =
-        await authCreateNewAccount.createUserWithEmailAndPassword(
-            email: accountEmail, password: password);
-
-    if (result.user != null) {
-      await adminAccountsCollection.doc(result.user!.uid).set({
-        "name": name,
-        "email": accountEmail,
-        "contactEmail": contactEmail,
-        "phoneNumber": phone,
-        "hotLine": hotLine,
-        "password": password,
-        "isActive": true,
-        "group": "super_bus_admin"
-      });
-      await superAdminApp.delete();
-      return true;
-    }
-    return true;
-  } catch (e) {
-    String err = e.toString();
-    if (kDebugMode) {
-      print(err);
-    }
-    await superAdminApp.delete();
-    return false;
-  }
-}
-
-Future<bool?> editSuperBusAdminAccount(
-    {required String accountId,
-    required String name,
-    required String phone,
-    required String contactEmail,
-    required String hotLine}) async {
-  try {
-    await adminAccountsCollection.doc(accountId).set({
-      "name": name,
-      "contactEmail": contactEmail,
-      "phoneNumber": phone,
-      "hotLine": hotLine,
-    });
-    return true;
-  } catch (e) {
-    String err = e.toString();
-    if (kDebugMode) {
-      print(err);
-    }
-    return false;
-  }
-}

@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/models/destination/destination.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/destinations/AllDestiantionsViewEdit.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/destinations/AllDestinationsNew.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+
 
 class AllDestinationsList extends StatefulWidget {
   const AllDestinationsList({Key? key}) : super(key: key);
@@ -61,7 +62,12 @@ class _DestinationListState extends State<AllDestinationsList> {
                   itemBuilder: (context, int index) {
                     return ListTile(
                       onTap: () {
-                        _openBottomSheet(destination: data[index]);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllDestinationsViewEdit(
+                                  destination: data[index],
+                                )));
                       },
                       leading: const Icon(Icons.arrow_right_sharp),
                       title: Text(data[index].name),
@@ -78,66 +84,6 @@ class _DestinationListState extends State<AllDestinationsList> {
             return Container();
           }
         },
-      ),
-    );
-  }
-
-  void _openBottomSheet({required Destination destination}) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return _getDestOptions(destination: destination);
-        });
-  }
-
-  Widget _getDestOptions({required Destination destination}) {
-    final options = [
-      "View Bus Trips",
-      "View/Edit Destination",
-    ];
-    return Container(
-      height: 250,
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-      color: Colors.white,
-      child: ListView(
-        children: options
-            .map((option) => ListTile(
-                  onTap: () => {
-                    if (option == "View Bus Trips")
-                      {
-                        Navigator.of(context).pop(),
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => BusCompanyTrips(
-                        //           company: company,
-                        //         )
-                        //     ))
-                      },
-                    if (option == "View/Edit Destination")
-                      {
-                        Navigator.of(context).pop(),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AllDestinationsViewEdit(
-                                      destination: destination,
-                                    )))
-                      },
-                  },
-                  title: Column(
-                    children: [
-                      Text(
-                        option,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Color(0xFFE4191D)),
-                      ),
-                      SizedBox(height: 4),
-                      Divider(height: 1)
-                    ],
-                  ),
-                ))
-            .toList(),
       ),
     );
   }

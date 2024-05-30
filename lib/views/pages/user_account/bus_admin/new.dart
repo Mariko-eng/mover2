@@ -1,3 +1,4 @@
+import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:random_string/random_string.dart';
@@ -355,24 +356,35 @@ class _BusAdminUserAccountsNewViewState
                                             setState(() {
                                               isLoading = true;
                                             });
-                                            bool result =
-                                                await createBusAdminAccount(
-                                                    busCompany: widget.company,
-                                                    group: selectedGroup!,
-                                                    username:
-                                                        _usernameController.text
-                                                            .trim(),
-                                                    phoneNumber:
-                                                        _phoneController.text
-                                                            .trim(),
-                                                    email:
-                                                        _accountEmailController
-                                                            .text
-                                                            .trim(),
-                                                    password:
-                                                        _accountPasswordController
-                                                            .text
-                                                            .trim());
+                                            bool result = await postAdminData({
+                                              "name" : _usernameController.text.trim(),
+                                              "accountEmail" : _accountEmailController.text.trim(),
+                                              "contactEmail" : _accountEmailController.text.trim(),
+                                              "phoneNumber" : _phoneController.text.trim(),
+                                              "password" : _accountPasswordController.text.trim(),
+                                              "companyId" : widget.company.uid,
+                                              "group" : selectedGroup!.name,
+                                              "isMainAccount" : selectedGroup!.name == "bus_admin" ? true : false,
+                                            });
+
+                                            // bool result =
+                                            //     await createBusAdminAccount(
+                                            //         busCompany: widget.company,
+                                            //         group: selectedGroup!,
+                                            //         username:
+                                            //             _usernameController.text
+                                            //                 .trim(),
+                                            //         phoneNumber:
+                                            //             _phoneController.text
+                                            //                 .trim(),
+                                            //         email:
+                                            //             _accountEmailController
+                                            //                 .text
+                                            //                 .trim(),
+                                            //         password:
+                                            //             _accountPasswordController
+                                            //                 .text
+                                            //                 .trim());
                                             if (result == false) {
                                               setState(() {
                                                 isLoading = false;
@@ -384,12 +396,12 @@ class _BusAdminUserAccountsNewViewState
                                             } else {
                                               setState(() {
                                                 isLoading = false;
+                                                Get.back();
+                                                Get.snackbar("Success",
+                                                    "Added User Account!",
+                                                    backgroundColor:
+                                                    Colors.greenAccent);
                                               });
-                                              Get.back();
-                                              Get.snackbar("Success",
-                                                  "Added User Account!",
-                                                  backgroundColor:
-                                                      Colors.greenAccent);
                                             }
                                           } catch (e) {
                                             setState(() {

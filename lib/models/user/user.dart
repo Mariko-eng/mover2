@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
 
 final CollectionReference adminAccountsCollection =
     AppCollections.adminAccountsRef;
@@ -68,7 +72,6 @@ Future<AdminUserModel?> getAdminUserProfile({required String uid}) async {
   }
 }
 
-
 Future<AdminUserModel?> checkIfUserExistsByEmail(String email) async {
   try {
     QuerySnapshot snap =
@@ -82,5 +85,87 @@ Future<AdminUserModel?> checkIfUserExistsByEmail(String email) async {
     print(e.toString());
     return null;
     // throw Exception(e.toString());
+  }
+}
+
+
+Future<bool> postAdminData(Map<String, dynamic> data) async {
+  try {
+    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully updated data
+      print('Admin Data Posted: ${response.body}');
+      return true;
+    } else {
+      print(response.body);
+      // Error updating data
+      print('Failed to post admin data: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('$e');
+  }
+}
+
+Future<bool> updateAdminData(String userId, Map<String, dynamic> data) async {
+  try {
+    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully updated data
+      print('Admin Data Posted: ${response.body}');
+      return true;
+    } else {
+      print(response.body);
+      // Error updating data
+      print('Failed to post admin data: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('$e');
+  }
+}
+
+Future<bool> deleteAdminData(String userId) async {
+  try {
+    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully updated data
+      print('Data updated: ${response.body}');
+      return true;
+    } else {
+      print(response.body);
+      // Error updating data
+      print('Failed to update data: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('$e');
   }
 }

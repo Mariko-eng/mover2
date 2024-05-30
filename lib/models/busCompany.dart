@@ -1,5 +1,6 @@
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
 import 'package:bus_stop_develop_admin/models/parksLocations.dart';
+import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:bus_stop_develop_admin/models/user/userBusAdminModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -164,7 +165,8 @@ Future<bool> deleteBusCompany({required BusCompany company}) async {
         res.docs.map((obj) => BusCompanyUserModel.fromSnapshot(obj)).toList();
 
     for (var account in accounts) {
-      await deleteBusCompanyUserAccount(busAdminModel: account);
+      await deleteAdminData(account.uid);
+      // await deleteBusCompanyUserAccount(busAdminModel: account);
     }
 
     await AppCollections.companiesRef.doc(company.uid).delete();
