@@ -1346,15 +1346,16 @@ class _BusTripsNewViewState extends State<BusTripsNewView> {
         departureTime: departureTime!,
         arrivalTime: arrivalTime!,
         totalSeats: seatsOrdinary,
+        totalOrdinarySeats: seatsOrdinary,
         price: ordinaryPrice,
         discountPrice: ordinaryDiscountPrice,
-        totalOrdinarySeats: seatsOrdinary,
         priceOrdinary: ordinaryPrice,
         discountPriceOrdinary: ordinaryDiscountPrice,
         priceVip: 0,
         discountPriceVip: 0,
         tripType: "Ordinary",
         isPublished: isPublished);
+
     if (result == null) {
       setState(() {
         isLoading = false;

@@ -47,8 +47,8 @@ class TripTicket {
       required this.amountPaid,
       required this.ticketType,
       required this.ticketNumber,
-        required this.seatNumber,
-        required this.buyerNames,
+      required this.seatNumber,
+      required this.buyerNames,
       required this.buyerPhoneNumber,
       required this.buyerEmail,
       required this.userId,
@@ -255,11 +255,14 @@ Future<bool> updateTicketCancelled({required String ticketId}) async {
   }
 }
 
-Future<CustomResponse> assignTicketSeatNumber({required String ticketId,required String seatNumber}) async {
+Future<CustomResponse> assignTicketSeatNumber(
+    {required String ticketId, required String seatNumber}) async {
   try {
-    var res = await ticketsCollection.where(seatNumber, isEqualTo: seatNumber).get();
-    if (res.docs.isNotEmpty){
-      return CustomResponse(status: false, message: "Seat Number Is Already Taken!");
+    var res =
+        await ticketsCollection.where(seatNumber, isEqualTo: seatNumber).get();
+    if (res.docs.isNotEmpty) {
+      return CustomResponse(
+          status: false, message: "Seat Number Is Already Taken!");
     }
     await ticketsCollection.doc(ticketId).update({"seatNumber": seatNumber});
     return CustomResponse(status: true, message: "Assigned Successfully!");

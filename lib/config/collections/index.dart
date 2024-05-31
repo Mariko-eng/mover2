@@ -33,7 +33,7 @@ import 'package:bus_stop_develop_admin/config/collections/dev.dart';
 // }
 
 class AppCollections {
-  bool isTestMode = true;
+  bool isTestMode = false;
 
   static late CollectionReference groupsRef;
   static late CollectionReference adminAccountsRef;
@@ -49,10 +49,10 @@ class AppCollections {
   static late CollectionReference infoRef;
 
   AppCollections () {
-
     print("isTestMode :: " + isTestMode.toString());
 
     if(isTestMode == true) {
+      // Development
       groupsRef = testGroups;
       adminAccountsRef = testAdminAccounts;
       clientsRef = testClients;
@@ -66,6 +66,7 @@ class AppCollections {
       notificationsRef = testNotifications;
       infoRef = testInfo;
     }else{
+      // Production
       groupsRef = prodGroups;
       adminAccountsRef = prodAdminAccounts;
       clientsRef = prodClients;
