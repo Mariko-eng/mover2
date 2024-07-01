@@ -9,6 +9,10 @@ admin.initializeApp({
 });
 
 import { Request, Response } from "express";
+
+const { onTicketCreateProd, onTicketCreateDev } = require("./triggers/ticket");
+const { onTripCreateProd, onTripCreateDev } = require("./triggers/trip");
+
 const express = require("express");
 const cors = require("cors");
 
@@ -21,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", require("./routes/auth"));
 app.use("/utils", require("./routes/utils"));
+app.use("/utils/notifications", require("./routes/utils/email"));
 
 //test connection
 app.get("/", (req: Request, res: Response) => {
@@ -39,5 +44,50 @@ app.get("/", (req: Request, res: Response) => {
 // app.listen(3000, () => {
 //   console.log(`Local Development Server Started .... ${3000}`);
 // });
+
+exports.newTripProd = functions.firestore
+  .document(`trips/{any}`)
+  .onCreate(async (snapshot, context) => {
+    const data = snapshot.data();
+    await onTripCreateProd({
+      data: data,
+      snapshot: snapshot,
+      context: context,
+    });
+  });
+
+exports.newTripDev = functions.firestore
+  .document(`test_trips/{any}`)
+  .onCreate(async (snapshot, context) => {
+    const data = snapshot.data();
+    await onTripCreateDev({
+      data: data,
+      snapshot: snapshot,
+      context: context,
+    });
+  });
+
+exports.newTicketProd = functions.firestore
+  .document(`tickets/{any}`)
+  .onCreate(async (snapshot, context) => {
+    const data = snapshot.data();
+    await onTicketCreateProd({
+      data: data,
+      snapshot: snapshot,
+      context: context,
+    });
+  });
+
+exports.newTicketDev = functions.firestore
+  .document(`test_tickets/{any}`)
+  .onCreate(async (snapshot, context) => {
+    const data = snapshot.data();
+    await onTicketCreateDev({
+      data: data,
+      snapshot: snapshot,
+      context: context,
+    });
+  });
+
 
 exports.busStopApi = functions.https.onRequest(app);

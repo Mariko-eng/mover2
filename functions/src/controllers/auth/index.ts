@@ -6,6 +6,7 @@ import {
   QuerySnapshot,
 } from "firebase-admin/firestore";
 
+
 const getAdmins = async ({ env }: { env: string }) => {
   try {
     let collectionName =
@@ -27,6 +28,7 @@ const getAdmins = async ({ env }: { env: string }) => {
     throw new Error(`Error changing Admin email: ${(error as Error).message}`);
   }
 };
+
 
 const createAdminAccount = async ({
   // Both Super_Bus_Admin & Bus_Admin
