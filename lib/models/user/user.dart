@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
 
 final CollectionReference adminAccountsCollection =
     AppCollections.adminAccountsRef;
@@ -65,6 +65,7 @@ class AdminUserModel {
 Future<AdminUserModel?> getAdminUserProfile({required String uid}) async {
   try {
     DocumentSnapshot snap = await adminAccountsCollection.doc(uid).get();
+    await updateToken(uid: uid);
     return AdminUserModel.fromSnapshot(snap);
   } catch (e) {
     print(e.toString());
@@ -75,7 +76,7 @@ Future<AdminUserModel?> getAdminUserProfile({required String uid}) async {
 Future<AdminUserModel?> checkIfUserExistsByEmail(String email) async {
   try {
     QuerySnapshot snap =
-    await adminAccountsCollection.where("email", isEqualTo: email).get();
+        await adminAccountsCollection.where("email", isEqualTo: email).get();
     if (snap.docs.isNotEmpty) {
       return AdminUserModel.fromSnapshot(snap.docs.first);
     } else {
@@ -88,10 +89,21 @@ Future<AdminUserModel?> checkIfUserExistsByEmail(String email) async {
   }
 }
 
+Future<void> updateToken({required String uid}) async {
+  var fcm = FirebaseMessaging.instance;
+  try {
+    String? token = await fcm.getToken();
+    await adminAccountsCollection.doc(uid).update({"token": token});
+  } catch (e) {
+    print("Failed To Update FCM Token");
+    print(e.toString());
+  }
+}
 
 Future<bool> postAdminData(Map<String, dynamic> data) async {
   try {
-    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+    String url =
+        "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/?env=${AppCollections().isTestMode ? "dev" : "prod"}";
 
     final response = await http.post(
       Uri.parse(url),
@@ -119,7 +131,8 @@ Future<bool> postAdminData(Map<String, dynamic> data) async {
 
 Future<bool> updateAdminData(String userId, Map<String, dynamic> data) async {
   try {
-    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+    String url =
+        "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
     final response = await http.put(
       Uri.parse(url),
       headers: {
@@ -146,7 +159,8 @@ Future<bool> updateAdminData(String userId, Map<String, dynamic> data) async {
 
 Future<bool> deleteAdminData(String userId) async {
   try {
-    String url = "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
+    String url =
+        "https://us-central1-straeto-2c817.cloudfunctions.net/busStopApi/auth/admins/$userId?env=${AppCollections().isTestMode ? "dev" : "prod"}";
     final response = await http.delete(
       Uri.parse(url),
       headers: {

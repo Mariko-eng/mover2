@@ -1,3 +1,4 @@
+import 'package:bus_stop_develop_admin/services/notifications.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/models/Notifications.dart';
@@ -36,6 +37,7 @@ class UserProvider with ChangeNotifier {
   }
 
   _onStateChanged(User? user) async {
+    NotificationService notifyHelper = NotificationService();
     if (user == null) {
       _userModel = null;
       _isLoading = false;
@@ -50,6 +52,12 @@ class UserProvider with ChangeNotifier {
         } else {
           if (adminUser.group == "bus_admin" ||
               adminUser.group == "bus_conductor") {
+            if(adminUser.group == "bus_admin") {
+              await notifyHelper.subscribeToFirebaseMessagingTopic(topic: "bus_admin");
+            }
+            if(adminUser.group == "bus_conductor") {
+              await notifyHelper.subscribeToFirebaseMessagingTopic(topic: "bus_conductor");
+            }
             BusCompany? busCompanyRes =
                 await getBusCompanyProfile(companyId: adminUser.companyId);
             if (busCompanyRes != null) {
@@ -64,6 +72,7 @@ class UserProvider with ChangeNotifier {
               notifyListeners();
             }
           } else if (adminUser.group == "super_bus_admin") {
+            await notifyHelper.subscribeToFirebaseMessagingTopic(topic: "super_bus_admin");
             _userModel = adminUser;
             _isLoading = false;
             notifyListeners();

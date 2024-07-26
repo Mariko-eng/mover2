@@ -5,8 +5,8 @@ const onTripCreateProd = async ({ data, snapshot, context }) => {
     const companyId = data.companyId;
     let receiverEmails = [];
 
-    const htmlBody = `<div><h1>${"New Trip Alert"}</h1><p>Order : <b>${
-        data.tripNumber}<b/></p><p>${"A New Trip Has Been Purchased!"}</p></div>`;
+    const htmlBody = `<div><h1>${"New Trip Alert"}</h1><p>Trip : <b>${
+        data.tripNumber}<b/></p><p>${"A New Trip Has Been Added!"}</p></div>`;
 
     const superAdminResults = await admin.firestore().collection("admin_accounts")
     .where("group", "==", "super_bus_admin")
@@ -34,8 +34,8 @@ const onTripCreateDev = async ({ data, snapshot, context }) => {
     const companyId = data.companyId;
     let receiverEmails = [];
 
-    const htmlBody = `<div><h1>${"New Trip Alert"}</h1><p>Order : <b>${
-        data.tripNumber}<b/></p><p>${"A New Trip Has Been Purchased!"}</p></div>`;
+    const htmlBody = `<div><h1>${"New Trip Alert"}</h1><p>Trip : <b>${
+        data.tripNumber}<b/></p><p>${"A New Trip Has Been Added!"}</p></div>`;
 
     const superAdminResults = await admin.firestore().collection("test_admin_accounts")
     .where("group", "==", "super_bus_admin")

@@ -5,7 +5,7 @@ const onTicketCreateProd = async ({ data, snapshot, context }) => {
     const companyId = data.companyId;
     let receiverEmails = [];
 
-    const htmlBody = `<div><h1>${"New Ticket Alert"}</h1><p>Order : <b>${data.ticketNumber
+    const htmlBody = `<div><h1>${"New Ticket Alert"}</h1><p>Ticket : <b>${data.ticketNumber
         }<b/></p><p>${"A New Ticket Has Been Purchased!"}</p></div>`;
 
     const superAdminResults = await admin.firestore().collection("admin_accounts")
@@ -34,7 +34,7 @@ const onTicketCreateDev = async ({ data, snapshot, context }) => {
     const companyId = data.companyId;
     let receiverEmails = [];
 
-    const htmlBody = `<div><h1>${"New Ticket Alert"}</h1><p>Order : <b>${data.ticketNumber
+    const htmlBody = `<div><h1>${"New Ticket Alert"}</h1><p>Ticket : <b>${data.ticketNumber
         }<b/></p><p>${"A New Ticket Has Been Purchased!"}</p></div>`;
 
     const superAdminResults = await admin.firestore().collection("test_admin_accounts")
