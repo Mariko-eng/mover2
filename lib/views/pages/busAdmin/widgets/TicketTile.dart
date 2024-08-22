@@ -44,7 +44,7 @@ class _BusAdminTicketTileState extends State<BusAdminTicketTileWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: 220,
+          height: 240,
           decoration: BoxDecoration(
             color: Colors.red[400],
             borderRadius: BorderRadius.circular(10),
@@ -202,24 +202,8 @@ class _BusAdminTicketTileState extends State<BusAdminTicketTileWidget> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            widget.tripTicket.buyerNames,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                          ),
-                          const SizedBox(width: 5),
-                          const Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white70,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            widget.tripTicket.buyerPhoneNumber,
+                            "${widget.tripTicket.buyerNames} - \n"
+                                "${widget.tripTicket.buyerPhoneNumber}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!

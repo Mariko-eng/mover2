@@ -1,4 +1,5 @@
 import 'package:bus_stop_develop_admin/controllers/authProvider.dart';
+import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/views/shared/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

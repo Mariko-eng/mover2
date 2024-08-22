@@ -39,5 +39,6 @@ module.exports = {
     'eol-last': 'off',
     'new-cap': 'off',
     'spaced-comment': 'off',
+    'padded-blocks': 'off',
   },
 };

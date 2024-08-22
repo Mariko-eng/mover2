@@ -1,12 +1,10 @@
 import 'package:bus_stop_develop_admin/config/collections/index.dart';
 import 'package:bus_stop_develop_admin/models/Notifications.dart';
 import 'package:bus_stop_develop_admin/models/customResponse.dart';
+import 'package:bus_stop_develop_admin/models/transaction/transaction.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-final CollectionReference tripsCollection = AppCollections.tripsRef;
-final CollectionReference ticketsCollection = AppCollections.ticketsRef;
 
 class TripTicket {
   final String ticketId;
@@ -123,32 +121,6 @@ Stream<List<TripTicket>> getMyBusCompanyTicketsForATrip(
     return snap.docs.map((doc) => TripTicket.fromSnapshot(doc)).toList();
   });
 }
-
-Stream<List<TripTicket>> getMyBusCompanyTickets(
-    {required String companyId, required DateTime date}) {
-  final startDate = DateTime(date.year, date.month, date.day);
-  final endDate = DateTime(date.year, date.month, date.day + 1);
-
-  return ticketsCollection
-      .where("companyId", isEqualTo: companyId)
-      .where('createdAt',
-          isGreaterThanOrEqualTo: startDate, isLessThanOrEqualTo: endDate)
-      .orderBy("createdAt", descending: true)
-      .snapshots()
-      .map((snap) {
-    return snap.docs.map((doc) => TripTicket.fromSnapshot(doc)).toList();
-  });
-}
-
-// Stream<List<TripTicket>> getMyBusCompanyTickets1({required String companyId}) {
-//   return ticketsCollection
-//       .where("companyId", isEqualTo: companyId)
-//       .orderBy("createdAt", descending: true)
-//       .snapshots()
-//       .map((snap) {
-//     return snap.docs.map((doc) => TripTicket.fromSnapshot(doc)).toList();
-//   });
-// }
 
 Stream<List<TripTicket>> getMyBusCompanyActiveTickets(
     {required String companyId, required String tripId}) {
@@ -293,3 +265,90 @@ Future<bool> assignTicketToAnotherTrip(
     return false;
   }
 }
+
+
+
+
+// Future getData() async {
+//   try {
+//
+//     var tripresults = await tripsCollection.doc("yCrwbNaJ7xUJvjq3YeCH").get();
+//     var ticketresults = await ticketsCollection.doc("DZrZgryd6lSTbSjj8gwF").get();
+//
+//     var clientresults = await AppCollections.clientsRef.doc("QTqgy7GzjfX5yzAkuWP8JfzWxX72").get();
+//
+//     print("tripresults");
+//     print(tripresults);
+//     print("ticketresults");
+//     print(ticketresults);
+//
+//     print("Trip");
+//     Trip tp = Trip.fromSnapshot(tripresults);
+//     print("tp.id : " + tp.id);
+//     print("tp.tripNumber : " + tp.tripNumber);
+//
+//     print("Ticket");
+//     TripTicket tk = TripTicket.fromSnapshot(ticketresults);
+//     print(tk);
+//
+//     print("Client");
+//     print(clientresults.id);
+//     print(clientresults.get("email"));
+//     print(clientresults.get("username"));
+//     print(clientresults.get("phoneNumber"));
+//
+//
+//
+//   //   var trans = {
+//   //     "buyerEmail" : clientresults.get("email"),
+//   //     "buyerNames" : clientresults.get("username"),
+//   //     "buyerPhone" : clientresults.get("phoneNumber"),
+//   //     "clientEmail" : clientresults.get("email"),
+//   //     "clientId" : clientresults.id,
+//   //     "clientUsername" : clientresults.get("username"),
+//   //
+//   //     "arrivalLocationName" : "NAIROBI",
+//   //     "arrivalLocationId" : "2j4uzGPFvKrJoDE3KTQb",
+//   //     "departureLocationName" : "KAMPALA",
+//   //     "departureLocationId" : "sHyqy19irxD5GNwCbeUH",
+//   //
+//   //     "companyId" : "vhL65Z8TCjSf2L6TTwjOHml21Sp2",
+//   //     "companyName" : "SIMBA COOL EA LIMITED",
+//   //
+//   //     "numberOfTickets" : 2,
+//   //     "paymentAccount" : clientresults.get("phoneNumber"),
+//   //
+//   //     "paymentAmount" : 204000,
+//   //     "paymentMemo" : "SIMBA COOL EA LIMITED",
+//   //     "paymentStatus" : "SETTLED",
+//   //     "paymentWallet" : "flw",
+//   //
+//   //     "ticketPrice" : 94000,
+//   //     "ticketType" : "VIP",
+//   //     "totalAmount" : 204000,
+//   //
+//   //     "tripId": tripresults.id,
+//   //     "tripNumber" : tripresults.get("tripNumber"),
+//   //
+//   //     "culipaTxId" : "",
+//   //
+//   //     "createdAt" : DateTime.now().toIso8601String(),
+//   // };
+//   //
+//   //   DocumentReference doc = await transactionsCollection.add(trans);
+//   //
+//   //   await ticketsCollection.doc("DZrZgryd6lSTbSjj8gwF").update({
+//   //     'preTicketId': "",
+//   //     'transactionId': doc.id,
+//   //     "buyerEmail" : clientresults.get("email"),
+//   //     "buyerNames" : clientresults.get("username"),
+//   //     "buyerPhoneNumber" : clientresults.get("phoneNumber"),
+//   //     'userEmail': clientresults.get("email"),
+//   //   });
+//
+//     print("finished");
+//
+//   }catch(e) {
+//    print(e.toString());
+//   }
+// }

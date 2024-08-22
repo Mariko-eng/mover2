@@ -4,7 +4,6 @@ import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/views/pages/superAdmin/bus_company/BusCompanyNew.dart';
 import 'package:flutter/foundation.dart';
 
-
 class BusCompanyList extends StatefulWidget {
   const BusCompanyList({Key? key}) : super(key: key);
 
@@ -42,8 +41,9 @@ class _BusCompanyListState extends State<BusCompanyList> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => BusCompanyNew()));
           },
-          child: Icon(Icons.add_box,
-          color: Colors.white,
+          child: Icon(
+            Icons.add_box,
+            color: Colors.white,
           )),
       body: StreamBuilder(
         stream: getAllBusCompanies(),
@@ -70,8 +70,8 @@ class _BusCompanyListState extends State<BusCompanyList> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BusCompanyDetailView(
-                                    company: data[index],
-                                  )));
+                                        company: data[index],
+                                      )));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -83,40 +83,40 @@ class _BusCompanyListState extends State<BusCompanyList> {
                           child: Column(
                             children: [
                               Container(
-                                height: 30,
+                                height: 60,
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(horizontal: 5),
                                 decoration: BoxDecoration(
                                     color: Colors.red[100],
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     )),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      data[index].name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontSize: 18,
+                                              color: Colors.blue[900],
+                                              fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
                               ),
                               SizedBox(
                                 height: 5,
                               ),
-                              Container(
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Column(
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Name : ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(data[index].name)
-                                      ],
-                                    ),
                                     Row(
                                       children: [
                                         Text(
@@ -130,13 +130,21 @@ class _BusCompanyListState extends State<BusCompanyList> {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        Text(data[index].email)
+                                        Text(
+                                          data[index].email,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                  color: Colors.blue[900],
+                                                  fontWeight: FontWeight.w400),
+                                        )
                                       ],
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          "Phone Number : ",
+                                          "Phone : ",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!
@@ -146,7 +154,15 @@ class _BusCompanyListState extends State<BusCompanyList> {
                                         const SizedBox(
                                           width: 10,
                                         ),
-                                        Text(data[index].phoneNumber)
+                                        Text(
+                                          data[index].phoneNumber,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                  color: Colors.blue[900],
+                                                  fontWeight: FontWeight.w400),
+                                        )
                                       ],
                                     ),
                                   ],
@@ -164,19 +180,20 @@ class _BusCompanyListState extends State<BusCompanyList> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => BusCompanyDetailView(
-                                                    company: data[index],
-                                                  )));
+                                                  builder: (context) =>
+                                                      BusCompanyDetailView(
+                                                        company: data[index],
+                                                      )));
                                         },
                                         child: Container(
                                           height: 30,
                                           alignment: Alignment.center,
-                                          padding:
-                                              EdgeInsets.symmetric(horizontal: 10),
-                                          child: Text(
-                                            "More Actions",
-                                            style:
-                                                TextStyle(color: Colors.red[900]),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Icon(
+                                            Icons
+                                                .keyboard_double_arrow_right_rounded,
+                                            color: Colors.red[900],
                                           ),
                                           decoration: BoxDecoration(
                                               border: Border.all(

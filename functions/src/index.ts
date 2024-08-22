@@ -1,5 +1,8 @@
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
+// The Cloud Functions for Firebase SDK to set up triggers and logging.
+const {onSchedule} = require("firebase-functions/v2/scheduler");
+const {logger} = require("firebase-functions");
 // const bodyParser = require("body-parser")
 import config from "./config";
 
@@ -12,6 +15,7 @@ import { Request, Response } from "express";
 
 const { onTicketCreateProd, onTicketCreateDev } = require("./triggers/ticket");
 const { onTripCreateProd, onTripCreateDev } = require("./triggers/trip");
+const { transactionsScheduler } = require("./utils/scheduler");
 
 const express = require("express");
 const cors = require("cors");
@@ -44,6 +48,17 @@ app.get("/", (req: Request, res: Response) => {
 // app.listen(3000, () => {
 //   console.log(`Local Development Server Started .... ${3000}`);
 // });
+
+
+// Run once a day at midnight, to clean up the users
+// Manually run the task here https://console.cloud.google.com/cloudscheduler
+exports.transactionsCleanUp = onSchedule("every 15 minutes", async (event) => {
+  // Fetch all user details.
+  await transactionsScheduler(),
+
+  logger.log("finished");
+});
+
 
 exports.newTripProd = functions.firestore
   .document(`trips/{any}`)

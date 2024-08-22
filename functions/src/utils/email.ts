@@ -41,7 +41,6 @@ const sendEmailNotification = async (receiverEmails : string[], html : string) =
         // console.log("Sent!");
         return data;
     } catch (error) {
-        console.log("error");
         console.log(error);
         return error;
     }

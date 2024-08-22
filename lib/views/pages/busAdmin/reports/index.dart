@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/trip_tickets/trips.dart';
-import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/transactions/transactions_list_view.dart';
-import 'package:intl/intl.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/trips.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/tickets.dart';
+import 'package:bus_stop_develop_admin/views/pages/busAdmin/reports/transactions.dart';
 
 class BusAdminReportsListView extends StatefulWidget {
   final BusCompany company;
@@ -16,124 +16,237 @@ class BusAdminReportsListView extends StatefulWidget {
 class _BusReportsListViewState extends State<BusAdminReportsListView> {
   TextEditingController dateInput = TextEditingController();
 
-  late DateTime _dateTime;
+  List<String> _years = [];
+  late String _selectedYear;
+  late String _selectedMonth;
+  late DateTime _selectedDate;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _dateTime = DateTime.now();
-      dateInput.text = DateFormat('yyyy-MM-dd').format(_dateTime);
+      // Get the current year
+      int currentYear = DateTime.now().year;
+      int currentMonth = DateTime.now().month;
+
+      // Generate a list of years from 2000 to the current year
+      _years = List.generate(
+          currentYear - 1999, (index) => (2000 + index).toString());
+
+      // Set the current year as the selected value
+      _selectedYear = currentYear.toString();
+      _selectedMonth = currentMonth.toString();
+      _selectedDate = DateTime(currentYear, currentMonth);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xfffdfdfd),
-          elevation: 0,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: SizedBox(
-                width: 20,
-                height: 25,
-                child: Image.asset(
-                  'assets/images/back_arrow.png',
-                )),
-          ),
-          centerTitle: true,
-          title: Column(
-            children: [
-              Text(
-                widget.company.name.toUpperCase(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.red[900],fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "Reports".toUpperCase(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue[900]),
-              ),
-            ],
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size(double.infinity, 80),
+          backgroundColor: Colors.red[900],
+          automaticallyImplyLeading: false,
+          toolbarHeight: 50,
+          flexibleSpace: SafeArea(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                SizedBox(
+                  height: 60,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        dateInput.text,
-                        style: TextStyle(color: Colors.red[900]),
+                      BackButton(
+                        color: Colors.white,
                       ),
+                      Expanded(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Reports By ${widget.company.name}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          )
+                        ],
+                      )),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.only(left: 5),
                         child: Row(
                           children: [
-                            GestureDetector(
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1950),
-                                      //DateTime.now() - not to allow to choose before today.
-                                      lastDate: DateTime(2100));
-
-                                  if (pickedDate != null) {//pickedDate output format => 2021-03-10 00:00:00.000
-                                    String formattedDate =
-                                    DateFormat('yyyy-MM-dd')
-                                        .format(pickedDate); //formatted date output using intl package =>  2021-03-16
-                                    setState(() {
-                                      _dateTime = pickedDate;
-                                      dateInput.text =
-                                          formattedDate; //set output date to TextField value.
-                                    });
-                                  } else {}
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {});
                                 },
-                                child: Icon(Icons.calendar_month,color: Colors.blue,)),
-                            Text("Edit Date",style: TextStyle(color: Colors.blue),)
+                                icon: Icon(
+                                  Icons.refresh,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
                       )
                     ],
                   ),
                 ),
-                TabBar(
-                  tabs: [
-                    Tab(
-                      text: "Tickets",
-                    ),
-                    Tab(
-                      text: "Transactions",
-                    )
-                  ],
-                ),
               ],
             ),
           ),
+          bottom: TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorWeight: 5,
+              indicatorColor: Colors.white,
+              labelColor: Colors.white,
+              dividerColor: Colors.white,
+              unselectedLabelColor: Colors.white,
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.bus_alert,
+                    color: Colors.white,
+                  ),
+                  text: "Trips",
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.receipt,
+                    color: Colors.white,
+                  ),
+                  text: "Tickets",
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.payment,
+                    color: Colors.white,
+                  ),
+                  text: "Transactions",
+                ),
+              ]),
         ),
-        body: TabBarView(
+        body: Column(
           children: [
-            BusAdminReportTripsListView(
-              company: widget.company,
-              dateTime: _dateTime,
-              dateInput: dateInput,
+            SizedBox(
+              height: 10,
             ),
-            BusCompanyTransactionsListView(
-              company: widget.company,
-              dateTime: _dateTime,
-              dateInput: dateInput,
-            )
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
+                // color: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Filter By Date",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 18,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w800),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("YYYY : "),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            DropdownMenu(
+                              menuHeight: 300,
+                              initialSelection: _selectedYear,
+                              // helperText: "Year",
+                              dropdownMenuEntries: _years
+                                  .map((item) => DropdownMenuEntry(
+                                      value: item, label: item))
+                                  .toList(),
+                              onSelected: (String? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    int yearValue = int.parse(val);
+                                    int monthValue = int.parse(_selectedMonth);
+                                    _selectedYear = val;
+                                    _selectedDate =
+                                        DateTime(yearValue, monthValue);
+                                    print("_selectedDate : " +
+                                        _selectedDate.toString());
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("MM : "),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            DropdownMenu(
+                              menuHeight: 300,
+                              initialSelection: _selectedMonth,
+                              // helperText: "Month",
+                              dropdownMenuEntries: [
+                                DropdownMenuEntry(value: "1", label: "Jan"),
+                                DropdownMenuEntry(value: "2", label: "Feb"),
+                                DropdownMenuEntry(value: "3", label: "Mar"),
+                                DropdownMenuEntry(value: "4", label: "Apr"),
+                                DropdownMenuEntry(value: "5", label: "May"),
+                                DropdownMenuEntry(value: "6", label: "Jun"),
+                                DropdownMenuEntry(value: "7", label: "Jul"),
+                                DropdownMenuEntry(value: "8", label: "Aug"),
+                                DropdownMenuEntry(value: "9", label: "Sept"),
+                                DropdownMenuEntry(value: "10", label: "Oct"),
+                                DropdownMenuEntry(value: "11", label: "Nov"),
+                                DropdownMenuEntry(value: "12", label: "Dec"),
+                              ],
+                              onSelected: (String? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    int yearValue = int.parse(_selectedYear);
+                                    int monthValue = int.parse(val);
+                                    _selectedMonth = val;
+                                    _selectedDate =
+                                        DateTime(yearValue, monthValue);
+                                    print("_selectedDate : " +
+                                        _selectedDate.toString());
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  BusAdminReportTripsListView(
+                    company: widget.company,
+                    dateTime: _selectedDate,
+                    dateInput: dateInput,
+                  ),
+                  BusAdminReportTicketsListView(
+                    company: widget.company,
+                    dateTime: _selectedDate,
+                    dateInput: dateInput,
+                  ),
+                  BusCompanyTransactionsListView(
+                    company: widget.company,
+                    dateTime: _selectedDate,
+                    dateInput: dateInput,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

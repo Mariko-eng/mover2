@@ -1,3 +1,4 @@
+import 'package:bus_stop_develop_admin/test_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -66,34 +67,9 @@ class _BusStopAppState extends State<BusStopAdminApp> {
             primarySwatch: Colors.red
         ),
         home: const Wrapper(),
-        // home: const Initial(),
       ),
     );
   }
 }
 
 
-// class BusStopAdminApp extends StatelessWidget {
-//   const BusStopAdminApp({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider<UserProvider>.value(value: UserProvider()),
-//         ChangeNotifierProvider<LocationsProvider>.value(
-//             value: LocationsProvider()),
-//       ],
-//       child: GetMaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         title: "Bus Stopper",
-//         theme: ThemeData(
-//           primaryColor: Colors.red,
-//             primarySwatch: Colors.red
-//         ),
-//         home: const Wrapper(),
-//         // home: const Initial(),
-//       ),
-//     );
-//   }
-// }

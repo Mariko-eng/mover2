@@ -99,65 +99,66 @@ class TransactionModel {
         createdAt: DateTime.parse(data['createdAt']));
   }
 
-  static Stream<List<TransactionModel>> getAllTransactions() {
-    return AppCollections.transactionsRef.snapshots().map((snap) {
+  static Future<List<TransactionModel>> getAllTransactions(
+      {required DateTime selectedDate}) async {
+    // Define the start and end of the month
+    DateTime startOfMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    DateTime endOfMonth =
+        DateTime(selectedDate.year, selectedDate.month + 1, 0, 23, 59, 59, 999);
+
+    try {
+      var results = await AppCollections.transactionsRef
+          .where('createdAt',
+              isGreaterThanOrEqualTo: startOfMonth.toIso8601String(),
+              isLessThanOrEqualTo: endOfMonth.toIso8601String())
+          .orderBy("createdAt", descending: true)
+          .get();
+
+      return results.docs
+          .map((doc) => TransactionModel.fromSnapshot(doc))
+          .toList();
+    } catch (e) {
+      throw e.toString();
+    }
+
+  }
+
+  static Stream<List<TransactionModel>> getAllTransactions1(
+      {required DateTime selectedDate}) {
+    // Define the start and end of the month
+    DateTime startOfMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    DateTime endOfMonth =
+        DateTime(selectedDate.year, selectedDate.month + 1, 0, 23, 59, 59, 999);
+
+
+    return AppCollections.transactionsRef
+        .where('createdAt',
+        isGreaterThanOrEqualTo: startOfMonth.toIso8601String(),
+        isLessThanOrEqualTo: endOfMonth.toIso8601String())
+        .orderBy("createdAt", descending: true)
+        .snapshots()
+        .map((snap) {
       return snap.docs
           .map((doc) => TransactionModel.fromSnapshot(doc))
           .toList();
     });
   }
 
-  static Future<List<TransactionModel>> getTransactionsByDate(
-      {required DateTime date}) async {
-    try {
-      final startDate = DateTime(date.year, date.month, date.day);
-      final endDate = DateTime(date.year, date.month, date.day + 1);
-
-      var results = await AppCollections.transactionsRef
-          .where('createdAt',
-              isGreaterThanOrEqualTo: startDate.toIso8601String(),
-              isLessThanOrEqualTo: endDate.toIso8601String())
-          .get();
-
-      return results.docs
-          .map((doc) => TransactionModel.fromSnapshot(doc))
-          .toList();
-    } catch (e) {
-      print(e.toString());
-      throw Exception(e.toString());
-    }
-  }
-
   static Future<List<TransactionModel>> getTransactionsByBusCompany(
-      {required String companyId}) async {
+      {required String companyId,required DateTime selectedDate}) async {
+    // Define the start and end of the month
+    DateTime startOfMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    DateTime endOfMonth =
+    DateTime(selectedDate.year, selectedDate.month + 1, 0, 23, 59, 59, 999);
+
     try {
-      var results = await AppCollections.transactionsRef
-          .where('companyId', isEqualTo: companyId).get();
-
-      return results.docs
-          .map((doc) => TransactionModel.fromSnapshot(doc))
-          .toList();
-    } catch (e) {
-      print(e.toString());
-      throw Exception(e.toString());
-    }
-  }
-
-  static Future<List<TransactionModel>> getTransactionsByBusCompanyAndDate(
-      {required DateTime date, required String companyId}) async {
-    try {
-      final startDate = DateTime(date.year, date.month, date.day);
-      final endDate = DateTime(date.year, date.month, date.day + 1);
-
       var results = await AppCollections.transactionsRef
           .where('companyId', isEqualTo: companyId)
           .where('createdAt',
-              isGreaterThanOrEqualTo: startDate.toIso8601String(),
-              isLessThanOrEqualTo: endDate.toIso8601String())
+          isGreaterThanOrEqualTo: startOfMonth.toIso8601String(),
+          isLessThanOrEqualTo: endOfMonth.toIso8601String())
+          .orderBy("createdAt", descending: true)
           .get();
-
-      // print(results);
-      // print(results.size);
 
       return results.docs
           .map((doc) => TransactionModel.fromSnapshot(doc))
