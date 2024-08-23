@@ -14,30 +14,9 @@ class BusAdminReportsListView extends StatefulWidget {
 }
 
 class _BusReportsListViewState extends State<BusAdminReportsListView> {
-  TextEditingController dateInput = TextEditingController();
-
-  List<String> _years = [];
-  late String _selectedYear;
-  late String _selectedMonth;
-  late DateTime _selectedDate;
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      // Get the current year
-      int currentYear = DateTime.now().year;
-      int currentMonth = DateTime.now().month;
-
-      // Generate a list of years from 2000 to the current year
-      _years = List.generate(
-          currentYear - 1999, (index) => (2000 + index).toString());
-
-      // Set the current year as the selected value
-      _selectedYear = currentYear.toString();
-      _selectedMonth = currentMonth.toString();
-      _selectedDate = DateTime(currentYear, currentMonth);
-    });
   }
 
   @override
@@ -125,124 +104,17 @@ class _BusReportsListViewState extends State<BusAdminReportsListView> {
         ),
         body: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Container(
-                // color: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Filter By Date",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 18,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w800),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text("YYYY : "),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            DropdownMenu(
-                              menuHeight: 300,
-                              initialSelection: _selectedYear,
-                              // helperText: "Year",
-                              dropdownMenuEntries: _years
-                                  .map((item) => DropdownMenuEntry(
-                                      value: item, label: item))
-                                  .toList(),
-                              onSelected: (String? val) {
-                                if (val != null) {
-                                  setState(() {
-                                    int yearValue = int.parse(val);
-                                    int monthValue = int.parse(_selectedMonth);
-                                    _selectedYear = val;
-                                    _selectedDate =
-                                        DateTime(yearValue, monthValue);
-                                    print("_selectedDate : " +
-                                        _selectedDate.toString());
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("MM : "),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            DropdownMenu(
-                              menuHeight: 300,
-                              initialSelection: _selectedMonth,
-                              // helperText: "Month",
-                              dropdownMenuEntries: [
-                                DropdownMenuEntry(value: "1", label: "Jan"),
-                                DropdownMenuEntry(value: "2", label: "Feb"),
-                                DropdownMenuEntry(value: "3", label: "Mar"),
-                                DropdownMenuEntry(value: "4", label: "Apr"),
-                                DropdownMenuEntry(value: "5", label: "May"),
-                                DropdownMenuEntry(value: "6", label: "Jun"),
-                                DropdownMenuEntry(value: "7", label: "Jul"),
-                                DropdownMenuEntry(value: "8", label: "Aug"),
-                                DropdownMenuEntry(value: "9", label: "Sept"),
-                                DropdownMenuEntry(value: "10", label: "Oct"),
-                                DropdownMenuEntry(value: "11", label: "Nov"),
-                                DropdownMenuEntry(value: "12", label: "Dec"),
-                              ],
-                              onSelected: (String? val) {
-                                if (val != null) {
-                                  setState(() {
-                                    int yearValue = int.parse(_selectedYear);
-                                    int monthValue = int.parse(val);
-                                    _selectedMonth = val;
-                                    _selectedDate =
-                                        DateTime(yearValue, monthValue);
-                                    print("_selectedDate : " +
-                                        _selectedDate.toString());
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
             Expanded(
               child: TabBarView(
                 children: [
                   BusAdminReportTripsListView(
                     company: widget.company,
-                    dateTime: _selectedDate,
-                    dateInput: dateInput,
                   ),
                   BusAdminReportTicketsListView(
                     company: widget.company,
-                    dateTime: _selectedDate,
-                    dateInput: dateInput,
                   ),
                   BusCompanyTransactionsListView(
                     company: widget.company,
-                    dateTime: _selectedDate,
-                    dateInput: dateInput,
                   )
                 ],
               ),

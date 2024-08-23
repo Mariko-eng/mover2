@@ -6,7 +6,7 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/destination/destination.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
 
 class BusTripsEditView extends StatefulWidget {
   // final AdminUserModel user;

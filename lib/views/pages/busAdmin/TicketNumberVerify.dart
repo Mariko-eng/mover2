@@ -4,7 +4,7 @@ import 'package:bus_stop_develop_admin/views/dashboard/busAdmin/TicketScanVerify
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/widgets/TicketTile.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
 
 class TicketNumberVerify extends StatefulWidget {
   final BusCompany company;

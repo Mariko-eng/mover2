@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTripsTickets.dart';
-import 'package:bus_stop_develop_admin/views/shared/error_widget.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/error_widget.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
 import 'package:bus_stop_develop_admin/views/shared/utils.dart';
 
 

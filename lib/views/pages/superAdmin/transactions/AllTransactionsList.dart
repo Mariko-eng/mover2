@@ -1,8 +1,7 @@
-import 'package:bus_stop_develop_admin/models/transaction/transaction.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
-import 'package:bus_stop_develop_admin/views/shared/utils.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bus_stop_develop_admin/views/widgets/transaction_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:bus_stop_develop_admin/models/transaction/transaction.dart';
+import 'package:bus_stop_develop_admin/views/shared/utils.dart';
 
 class SuperAdminAllTransactionsList extends StatefulWidget {
   const SuperAdminAllTransactionsList({super.key});
@@ -17,6 +16,7 @@ class _AllTransactionsListState extends State<SuperAdminAllTransactionsList> {
   late String _selectedYear;
   late String _selectedMonth;
   late DateTime _selectedDate;
+  late String _selectedStatus;
 
   @override
   void initState() {
@@ -34,6 +34,7 @@ class _AllTransactionsListState extends State<SuperAdminAllTransactionsList> {
       _selectedYear = currentYear.toString();
       _selectedMonth = currentMonth.toString();
       _selectedDate = DateTime(currentYear, currentMonth);
+      _selectedStatus = "all";
     });
   }
 
@@ -71,394 +72,442 @@ class _AllTransactionsListState extends State<SuperAdminAllTransactionsList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Filter By Date",
+                    "Filters",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 18,
                         color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w800),
+                        fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DropdownMenu(
-                        menuHeight: 300,
-                        initialSelection: _selectedYear,
-                        // helperText: "Year",
-                        dropdownMenuEntries: _years
-                            .map((item) =>
+                  LayoutBuilder(builder: (context, constraints) {
+                    return SizedBox(
+                      height: 80,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          DropdownMenu(
+                            menuHeight: 300,
+                            width: constraints.maxWidth * 0.35,
+                            initialSelection: _selectedYear,
+                            helperText: "Year",
+                            dropdownMenuEntries: _years
+                                .map((item) =>
                                 DropdownMenuEntry(value: item, label: item))
-                            .toList(),
-                        onSelected: (String? val) {
-                          if (val != null) {
-                            setState(() {
-                              int yearValue = int.parse(val);
-                              int monthValue = int.parse(_selectedMonth);
-                              _selectedYear = val;
-                              _selectedDate = DateTime(yearValue, monthValue);
-                              print("_selectedDate : " +
-                                  _selectedDate.toString());
-                            });
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      DropdownMenu(
-                        menuHeight: 300,
-                        initialSelection: _selectedMonth,
-                        // helperText: "Month",
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry(value: "1", label: "Jan"),
-                          DropdownMenuEntry(value: "2", label: "Feb"),
-                          DropdownMenuEntry(value: "3", label: "Mar"),
-                          DropdownMenuEntry(value: "4", label: "Apr"),
-                          DropdownMenuEntry(value: "5", label: "May"),
-                          DropdownMenuEntry(value: "6", label: "Jun"),
-                          DropdownMenuEntry(value: "7", label: "Jul"),
-                          DropdownMenuEntry(value: "8", label: "Aug"),
-                          DropdownMenuEntry(value: "9", label: "Sept"),
-                          DropdownMenuEntry(value: "10", label: "Oct"),
-                          DropdownMenuEntry(value: "11", label: "Nov"),
-                          DropdownMenuEntry(value: "12", label: "Dec"),
+                                .toList(),
+                            onSelected: (String? val) {
+                              if (val != null) {
+                                setState(() {
+                                  int yearValue = int.parse(val);
+                                  int monthValue = int.parse(_selectedMonth);
+                                  _selectedYear = val;
+                                  _selectedDate =
+                                      DateTime(yearValue, monthValue);
+                                  // print("_selectedDate : " +
+                                  //     _selectedDate.toString());
+                                });
+                              }
+                            },
+                          ),
+                          SizedBox(width: 10,),
+                          DropdownMenu(
+                            menuHeight: 300,
+                            width: constraints.maxWidth * 0.35,
+                            initialSelection: _selectedMonth,
+                            helperText: "Month",
+                            dropdownMenuEntries: const [
+                              DropdownMenuEntry(value: "1", label: "Jan"),
+                              DropdownMenuEntry(value: "2", label: "Feb"),
+                              DropdownMenuEntry(value: "3", label: "Mar"),
+                              DropdownMenuEntry(value: "4", label: "Apr"),
+                              DropdownMenuEntry(value: "5", label: "May"),
+                              DropdownMenuEntry(value: "6", label: "Jun"),
+                              DropdownMenuEntry(value: "7", label: "Jul"),
+                              DropdownMenuEntry(value: "8", label: "Aug"),
+                              DropdownMenuEntry(value: "9", label: "Sept"),
+                              DropdownMenuEntry(value: "10", label: "Oct"),
+                              DropdownMenuEntry(value: "11", label: "Nov"),
+                              DropdownMenuEntry(value: "12", label: "Dec"),
+                            ],
+                            onSelected: (String? val) {
+                              if (val != null) {
+                                setState(() {
+                                  int yearValue = int.parse(_selectedYear);
+                                  int monthValue = int.parse(val);
+                                  _selectedMonth = val;
+                                  _selectedDate =
+                                      DateTime(yearValue, monthValue);
+                                  // print("_selectedDate : " +
+                                  //     _selectedDate.toString());
+                                });
+                              }
+                            },
+                          ),
+                          SizedBox(width: 10,),
+                          DropdownMenu(
+                            menuHeight: 300,
+                            width: constraints.maxWidth * 0.35,
+                            initialSelection: _selectedStatus,
+                            helperText: "Status",
+                            dropdownMenuEntries: const [
+                              DropdownMenuEntry(value: "all", label: "All"),
+                              DropdownMenuEntry(value: "settled", label: "Settled"),
+                              DropdownMenuEntry(value: "refused", label: "Refused"),
+                              DropdownMenuEntry(value: "error", label: "Error"),
+                              DropdownMenuEntry(value: "pending", label: "Pending"),
+                            ],
+                            onSelected: (String? val) {
+                              if (val != null) {
+                                setState(() {
+                                  _selectedStatus = val;
+                                });
+                              }
+                            },
+                          ),
                         ],
-                        onSelected: (String? val) {
-                          if (val != null) {
-                            setState(() {
-                              int yearValue = int.parse(_selectedYear);
-                              int monthValue = int.parse(val);
-                              _selectedMonth = val;
-                              _selectedDate = DateTime(yearValue, monthValue);
-                              print("_selectedDate : " +
-                                  _selectedDate.toString());
-                            });
-                          }
-                        },
                       ),
-                    ],
-                  ),
+                    );
+                  }),
                 ],
               ),
             ),
 
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
 
             FutureBuilder(
               future: TransactionModel.getAllTransactions(
                   selectedDate: _selectedDate),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  if (kDebugMode) {
-                    print(snapshot.error);
+                  return Expanded(
+                      child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text("Something has Gone Wrong!"),
+                      ],
+                    ),
+                  ));
+                }
+                if (!snapshot.hasData) {
+                  return const Expanded(
+                      child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.red,
+                    ),
+                  ));
+                } else {
+                  List<TransactionModel>? data = snapshot.data;
+                  if (data == null) {
                     return Expanded(
                         child: Center(
-                          child: Text("Something Went Wrong!"),
-                        ));
-                  }
-                }
-                if (snapshot.hasData) {
-                  List<TransactionModel>? data = snapshot.data;
-                  if(data == null) {
-                    return Container();
+                            child: Text(
+                      "No Data Found!",
+                      textAlign: TextAlign.center,
+                    )));
                   }
                   if (data.isEmpty) {
                     return Expanded(
                         child: Center(
-                          child: Text("Sorry, No Transactions!"),
-                        ));
+                            child: Text(
+                      "No Data Found!",
+                      textAlign: TextAlign.center,
+                    )));
                   }
+                  int settled = 0;
+                  int settledAmt = 0;
+                  int refused = 0;
+                  int refusedAmt = 0;
+
+                  for (int i = 0; i < data.length; i++) {
+                    if (data[i].paymentStatus.toLowerCase() == "settled") {
+                      settled += 1;
+                      settledAmt += int.parse(data[i].paymentAmount);
+                      if (_selectedStatus == "settled") {
+                      }
+                    }
+                    if (data[i].paymentStatus.toLowerCase() == "refused") {
+                      refused += 1;
+                      refusedAmt += int.parse(data[i].paymentAmount);
+                      if (_selectedStatus == "refused") {
+                      }
+                    }
+
+                    if (data[i].paymentStatus.toLowerCase() == "error") {
+                      refused += 1;
+                      refusedAmt += int.parse(data[i].paymentAmount);
+                    }
+                  }
+
+                  List<TransactionModel> filteredData = _filter(data, _selectedStatus);
+
                   return Expanded(
-                    child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, int index) {
-                          return Card(
-                            child: ListTile(
-                              leading: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 3),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: data[index].paymentStatus ==
-                                        "SETTLED"
-                                        ? Colors.green[600]
-                                        : data[index].paymentStatus == "PENDING"
-                                        ? Colors.blue[500]
-                                        : Colors.orange[500]),
-                                child: Text(
-                                  data[index].paymentStatus.toUpperCase(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                      color: Colors.white, fontSize: 14),
-                                ),
-                              ),
-                              title: Text(
-                                "SHS " +
-                                    data[index].totalAmount.toString() +
-                                    " (${data[index].numberOfTickets})",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                    color: Colors.green[900], fontSize: 18),
-                              ),
-                              subtitle: Column(
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.blue[100]!.withOpacity(0.3),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(width: 80, child: Text("Phone")),
-                                      Text(
-                                        data[index].buyerPhone,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                            color: Colors.blue[900],
-                                            fontSize: 14),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                          width: 80, child: Text("Client")),
-                                      Text(
-                                        data[index].buyerNames,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                            color: Colors.blue[900],
-                                            fontSize: 14),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: 80, child: Text("Trip")),
-                                      Text(
-                                        data[index].tripNumber,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                            color: Colors.blue[900],
-                                            fontSize: 14),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        data[index].companyName,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                            color: Colors.green[900],
-                                            fontSize: 14),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        dateToStringNew(data[index].createdAt) +
-                                            "/" +
-                                            dateToTime(
-                                              data[index].createdAt,
-                                            ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                            color: Colors.red,
-                                            fontSize: 14),
-                                      )
-                                    ],
+                                  Text(
+                                    "Summary",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        }),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    " + Transactions Count",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Colors.blue[900],
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Settled",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            " : " + settled.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.blue[900],
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Refused | Error",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            " : " + refused.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.blue[900],
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Total",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            " : " + data.length.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.blue[900],
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    " + Transactions Amount",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Colors.blue[900],
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Settled",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            " : " + formatNumber(settledAmt),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.blue[900],
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Refused | Error",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            " : " + formatNumber(refusedAmt),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.blue[900],
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: filteredData.length,
+                              itemBuilder: (context, int index) {
+                                List<TransactionModel> data = filteredData;
+                                return TransactionWidget(data: data[index]);
+                              }),
+                        ),
+                      ],
+                    ),
                   );
-                } else {
-                  return Expanded(
-                      child: Center(
-                        child: LoadingWidget(),
-                      ));
                 }
               },
             ),
-
-            // StreamBuilder(
-            //   stream: TransactionModel.getAllTransactions(
-            //       selectedDate: _selectedDate),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasError) {
-            //       if (kDebugMode) {
-            //         print(snapshot.error);
-            //         return Expanded(
-            //             child: Center(
-            //           child: Text("Something Went Wrong!"),
-            //         ));
-            //       }
-            //     }
-            //     if (snapshot.hasData) {
-            //       List<TransactionModel>? data = snapshot.data;
-            //       if(data == null) {
-            //         return Container();
-            //       }
-            //       if (data.isEmpty) {
-            //         return Expanded(
-            //             child: Center(
-            //               child: Text("Sorry, No Transactions!"),
-            //             ));
-            //       }
-            //       return Expanded(
-            //         child: ListView.builder(
-            //             itemCount: data.length,
-            //             itemBuilder: (context, int index) {
-            //               return Card(
-            //                 child: ListTile(
-            //                   leading: Container(
-            //                     padding: EdgeInsets.symmetric(
-            //                         horizontal: 5, vertical: 3),
-            //                     decoration: BoxDecoration(
-            //                         borderRadius: BorderRadius.circular(5),
-            //                         color: data[index].paymentStatus ==
-            //                                 "SETTLED"
-            //                             ? Colors.green[600]
-            //                             : data[index].paymentStatus == "PENDING"
-            //                                 ? Colors.blue[500]
-            //                                 : Colors.orange[500]),
-            //                     child: Text(
-            //                       data[index].paymentStatus.toUpperCase(),
-            //                       style: Theme.of(context)
-            //                           .textTheme
-            //                           .bodyMedium!
-            //                           .copyWith(
-            //                               color: Colors.white, fontSize: 14),
-            //                     ),
-            //                   ),
-            //                   title: Text(
-            //                     "SHS " +
-            //                         data[index].totalAmount.toString() +
-            //                         " (${data[index].numberOfTickets})",
-            //                     style: Theme.of(context)
-            //                         .textTheme
-            //                         .bodyMedium!
-            //                         .copyWith(
-            //                             color: Colors.green[900], fontSize: 18),
-            //                   ),
-            //                   subtitle: Column(
-            //                     children: [
-            //                       Row(
-            //                         children: [
-            //                           SizedBox(width: 80, child: Text("Phone")),
-            //                           Text(
-            //                             data[index].buyerPhone,
-            //                             style: Theme.of(context)
-            //                                 .textTheme
-            //                                 .bodyMedium!
-            //                                 .copyWith(
-            //                                     color: Colors.blue[900],
-            //                                     fontSize: 14),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           SizedBox(
-            //                               width: 80, child: Text("Client")),
-            //                           Text(
-            //                             data[index].buyerNames,
-            //                             style: Theme.of(context)
-            //                                 .textTheme
-            //                                 .bodyMedium!
-            //                                 .copyWith(
-            //                                     color: Colors.blue[900],
-            //                                     fontSize: 14),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           SizedBox(width: 80, child: Text("Trip")),
-            //                           Text(
-            //                             data[index].tripNumber,
-            //                             style: Theme.of(context)
-            //                                 .textTheme
-            //                                 .bodyMedium!
-            //                                 .copyWith(
-            //                                     color: Colors.blue[900],
-            //                                     fontSize: 14),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 10,
-            //                       ),
-            //                       Row(
-            //                         mainAxisAlignment: MainAxisAlignment.end,
-            //                         children: [
-            //                           Text(
-            //                             data[index].companyName,
-            //                             style: Theme.of(context)
-            //                                 .textTheme
-            //                                 .bodyMedium!
-            //                                 .copyWith(
-            //                                     color: Colors.green[900],
-            //                                     fontSize: 14),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       Row(
-            //                         mainAxisAlignment: MainAxisAlignment.end,
-            //                         children: [
-            //                           Text(
-            //                             dateToStringNew(data[index].createdAt) +
-            //                                 "/" +
-            //                                 dateToTime(
-            //                                   data[index].createdAt,
-            //                                 ),
-            //                             style: Theme.of(context)
-            //                                 .textTheme
-            //                                 .bodyMedium!
-            //                                 .copyWith(
-            //                                     color: Colors.red,
-            //                                     fontSize: 14),
-            //                           )
-            //                         ],
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               );
-            //             }),
-            //       );
-            //     } else {
-            //       return Expanded(
-            //           child: Center(
-            //         child: LoadingWidget(),
-            //       ));
-            //     }
-            //   },
-            // ),
           ],
         ),
       ),
     );
+  }
+
+  List<TransactionModel> _filter(List<TransactionModel> data, String status) {
+    if (status != "all") {
+      return data
+          .where((element) => element.paymentStatus.toLowerCase() == status)
+          .toList();
+    }
+    return data;
   }
 }

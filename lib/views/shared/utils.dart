@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 final Map months = {
   '1': 'Jan',
   '2': 'Feb',
@@ -40,4 +42,9 @@ String dateToTime(DateTime dateTime) {
   dateTime.minute <= 9 ? '0' + dateTime.minute.toString() : dateTime.minute;
 
   return '$hour:$min';
+}
+
+String formatNumber(int amount) {
+  final formatter = NumberFormat('#,###');
+  return formatter.format(amount);
 }

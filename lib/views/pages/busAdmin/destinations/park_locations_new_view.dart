@@ -1,8 +1,8 @@
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/destination/destination.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/destinations/park_locations_map_new_view.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
-import 'package:bus_stop_develop_admin/views/shared/text_field_widget.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';

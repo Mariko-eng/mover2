@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../shared/loading.dart';
+import '../../../widgets/loading.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
 import 'package:bus_stop_develop_admin/models/ticket.dart';
 import 'package:bus_stop_develop_admin/models/trip.dart';

@@ -1,6 +1,6 @@
 import 'package:bus_stop_develop_admin/models/settingsProfile.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
-import 'package:bus_stop_develop_admin/views/shared/text_field_widget.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsEditScreen extends StatefulWidget {

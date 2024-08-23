@@ -7,11 +7,11 @@ import 'package:bus_stop_develop_admin/views/pages/busAdmin/destinations/destina
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trickets/BusTickets.dart';
 import 'package:bus_stop_develop_admin/views/pages/busAdmin/trips/BusTrips.dart';
 
-
 class BusCompanyDetailView extends StatefulWidget {
   final BusCompany company;
 
-  const BusCompanyDetailView({Key? key, required this.company}) : super(key: key);
+  const BusCompanyDetailView({Key? key, required this.company})
+      : super(key: key);
 
   @override
   _BusCompanyViewEditState createState() => _BusCompanyViewEditState();
@@ -19,50 +19,53 @@ class BusCompanyDetailView extends StatefulWidget {
 
 class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: const Color(0xfffdfdfd),
-          elevation: 0,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: SizedBox(
-                width: 20,
-                height: 25,
-                child: Image.asset(
-                  'assets/images/back_arrow.png',
-                )),
-          ),
-          title: Text(
-            widget.company.name.toUpperCase(),
-            style: TextStyle(color: Colors.red[900]),
-          )),
+        backgroundColor: const Color(0xfffdfdfd),
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: SizedBox(
+              width: 20,
+              height: 25,
+              child: Image.asset(
+                'assets/images/back_arrow.png',
+              )),
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                  height: 40,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Company Profile",
-                    style: TextStyle(fontSize: 18,color: Color(0xff62020a)),
-                  )),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.company.name.toUpperCase(),
+                    style: TextStyle(fontSize: 17, color: Colors.red[900]),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [const Text("Name"), Text(widget.company.name)],
-                ),
-              ),
+              Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Company Profile",
+                    style: TextStyle(fontSize: 18, color: Colors.blue[900]),
+                  )),
               SizedBox(
                 height: 10,
               ),
@@ -72,7 +75,8 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Account Email"),
-                    Text(widget.company.email,
+                    Text(
+                      widget.company.email,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
                   ],
@@ -87,7 +91,8 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Contact Email"),
-                    Text(widget.company.email,
+                    Text(
+                      widget.company.email,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
                   ],
@@ -102,7 +107,8 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Phone"),
-                    Text(widget.company.phoneNumber,
+                    Text(
+                      widget.company.phoneNumber,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
                   ],
@@ -115,29 +121,30 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [const Text("HotLine"),
-                    Text(widget.company.hotLine,
+                  children: [
+                    const Text("HotLine"),
+                    Text(
+                      widget.company.hotLine,
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    )],
+                    )
+                  ],
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-
               Divider(),
-              Text("Options",
-                style: TextStyle(fontSize: 18,color: Color(0xff62020a)),
+              Text(
+                "Options",
+                style: TextStyle(fontSize: 18, color: Color(0xff62020a)),
               ),
-
               Divider(),
               ListTile(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BusAdminTripsView(
+                          builder: (context) => BusAdminTripsView(
                                 company: widget.company,
                               )));
                 },
@@ -151,8 +158,7 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BusAdminTicketsView(
+                          builder: (context) => BusAdminTicketsView(
                                 company: widget.company,
                               )));
                 },
@@ -166,8 +172,7 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BusAdminReportsListView(
+                          builder: (context) => BusAdminReportsListView(
                                 company: widget.company,
                               )));
                 },
@@ -181,8 +186,7 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BusAdminUserAccountsListView(
+                          builder: (context) => BusAdminUserAccountsListView(
                                 company: widget.company,
                               )));
                 },
@@ -196,8 +200,7 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              BusAdminDestinationsListView(
+                          builder: (context) => BusAdminDestinationsListView(
                                 company: widget.company,
                               )));
                 },
@@ -251,7 +254,6 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
   //     },
   //   );
   // }
-
 
   Future<void> _performDeleteCompany(BusCompany company) {
     return showDialog(
@@ -316,5 +318,4 @@ class _BusCompanyViewEditState extends State<BusCompanyDetailView> {
       },
     );
   }
-
 }

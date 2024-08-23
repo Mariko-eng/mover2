@@ -2,7 +2,7 @@ import 'package:bus_stop_develop_admin/models/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bus_stop_develop_admin/models/busCompany.dart';
-import 'package:bus_stop_develop_admin/views/shared/loading.dart';
+import 'package:bus_stop_develop_admin/views/widgets/loading.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:bus_stop_develop_admin/models/user/userBusAdminModel.dart';
 import 'package:bus_stop_develop_admin/models/user/userGroupModel.dart';
